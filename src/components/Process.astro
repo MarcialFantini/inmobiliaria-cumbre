@@ -24,51 +24,132 @@ const items = [
   },
 ];
 ---
+<!--
+  Numbered process with sticky step indicators (per brand 08 spec).
+  - Heading column stays sticky on the left.
+  - Step indicator list (01/02/03/04 in Geist Mono) also sticky.
+  - The active step number / title is highlighted via IntersectionObserver
+    while the user scrolls the step cards on the right.
+-->
+<section id="proceso" class="relative scroll-mt-24">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+      <!-- Sticky column: heading + step indicators -->
+      <div class="lg:col-span-5 lg:sticky lg:top-28 self-start">
+        <h2 class="text-display-2 text-cumbre-ink reveal reveal-delay-1">
+          Cuatro pasos, una sola persona.
+        </h2>
+        <p class="mt-6 text-ink-700 text-lg max-w-[34ch] reveal reveal-delay-2">
+          Nos especializamos en acompanarte de punta a punta. Sin vendedores rotativos ni respuestas automaticas.
+        </p>
 
-<section id="proceso" class="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-20 md:py-28">
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-    <!-- Heading column -->
-    <div class="lg:col-span-5 lg:sticky lg:top-28 self-start">
-      <p class="text-eyebrow reveal">Como trabajamos</p>
-      <h2 class="mt-5 text-display-2 text-ink-900 reveal reveal-delay-1">
-        Cuatro pasos, una sola persona.
-      </h2>
-      <p class="mt-6 text-ink-700 text-lg max-w-[34ch] reveal reveal-delay-2">
-        Nos especializamos en acompanarte de punta a punta. Sin vendedores rotativos ni respuestas automaticas.
-      </p>
-      <a
-        href="#contacto"
-        class="mt-8 btn-pill btn-ghost reveal reveal-delay-3"
-      >
-        <span>Reservar una llamada</span>
-        <span class="btn-pill__icon"><Icon name="arrow-up-right" size={15} /></span>
-      </a>
-    </div>
-
-    <!-- Steps column -->
-    <ol class="lg:col-span-7 space-y-3">
-      {items.map((item, i) => (
-        <li
-          class={`reveal ${i === 0 ? '' : `reveal-delay-${Math.min(i, 5)}`} bezel`}
+        <!-- Sticky step indicator list (Geist Mono numbers). -->
+        <ol
+          class="mt-10 space-y-1 reveal reveal-delay-3"
+          aria-label="Indicador de pasos"
+          data-step-indicator-list
         >
-          <div class="bezel__core p-6 sm:p-8 flex gap-6">
-            <div class="flex-shrink-0">
-              <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-500">
+          {items.map((item, i) => (
+            <li
+              data-step-indicator={item.n}
+              class="group flex items-baseline gap-4 py-2 border-b border-cumbre-bone-200 transition-colors duration-500"
+              data-active={i === 0 ? 'true' : 'false'}
+            >
+              <span
+                class="font-mono text-2xl md:text-3xl tabular-nums text-cumbre-gold transition-colors duration-500"
+                data-step-num
+              >
                 {item.n}
               </span>
-            </div>
-            <div class="flex-1">
-              <h3 class="text-2xl font-semibold tracking-tight text-ink-900">
+              <span
+                class="text-base md:text-lg font-medium text-ink-500 transition-colors duration-500"
+                data-step-label
+              >
                 {item.title}
-              </h3>
-              <p class="mt-2 text-ink-700 leading-relaxed max-w-[48ch]">
-                {item.body}
-              </p>
+              </span>
+            </li>
+          ))}
+        </ol>
+
+        <a
+          href="#contacto"
+          class="mt-8 btn-pill btn-ghost reveal reveal-delay-4"
+        >
+          <span>Reservar una llamada</span>
+          <span class="btn-pill__icon"><Icon name="arrow-up-right" size={15} /></span>
+        </a>
+      </div>
+
+      <!-- Step cards column -->
+      <ol class="lg:col-span-7 space-y-4 md:space-y-6" data-step-cards>
+        {items.map((item, i) => (
+          <li
+            data-step={item.n}
+            class={`reveal ${i === 0 ? '' : `reveal-delay-${Math.min(i, 5)}`} bezel`}
+          >
+            <div class="bezel__core p-6 sm:p-8 flex gap-6">
+              <div class="flex-shrink-0">
+                <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-cumbre-gold">
+                  {item.n}
+                </span>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-2xl font-semibold tracking-tight text-cumbre-ink">
+                  {item.title}
+                </h3>
+                <p class="mt-2 text-ink-700 leading-relaxed max-w-[48ch]">
+                  {item.body}
+                </p>
+              </div>
+              <Icon name="check" size={18} class="text-cumbre-forest flex-shrink-0 mt-1" />
             </div>
-            <Icon name="check" size={18} class="text-accent-600 flex-shrink-0 mt-1" />
-          </div>
-        </li>
-      ))}
-    </ol>
+          </li>
+        ))}
+      </ol>
+    </div>
   </div>
 </section>
+
+<script>
+  // Highlight the active step indicator as the user scrolls through the
+  // step cards. Active indicator: gold number + ink label.
+  // Inactive: gold number stays (it's the brand mark) but at lower contrast;
+  // label fades to ink-500.
+  const cards = document.querySelectorAll<HTMLLIElement>('[data-step]');
+  const indicators = document.querySelectorAll<HTMLLIElement>('[data-step-indicator]');
+
+  if (cards.length && indicators.length) {
+    const setActive = (n: string) => {
+      indicators.forEach((ind) => {
+        const isActive = ind.dataset.stepIndicator === n;
+        ind.dataset.active = String(isActive);
+        const num = ind.querySelector<HTMLSpanElement>('[data-step-num]');
+        const label = ind.querySelector<HTMLSpanElement>('[data-step-label]');
+        if (num) {
+          num.classList.toggle('text-cumbre-forest', isActive);
+          num.classList.toggle('text-cumbre-gold', !isActive);
+        }
+        if (label) {
+          label.classList.toggle('text-cumbre-ink', isActive);
+          label.classList.toggle('text-ink-500', !isActive);
+        }
+      });
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        // Pick the entry closest to the top of the viewport that's intersecting.
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible) {
+          const n = (visible.target as HTMLElement).dataset.step;
+          if (n) setActive(n);
+        }
+      },
+      { threshold: [0.2, 0.5, 0.8], rootMargin: '-15% 0px -35% 0px' },
+    );
+
+    cards.forEach((card) => io.observe(card));
+  }
+</script>

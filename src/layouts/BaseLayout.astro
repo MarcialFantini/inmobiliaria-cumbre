@@ -30,8 +30,8 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString(
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#FBFAF6" />
+    <!-- Theme color for mobile browsers (Cumbre bone). -->
+    <meta name="theme-color" content="#F5F1E8" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -50,14 +50,8 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString(
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Fonts - preconnect + load from Google Fonts (CDN, fallback self-hosted would be better).
-         Geist (sans display) + Source Serif 4 (editorial pull-quotes). -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,400;1,400&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Fonts self-hosted via @fontsource-variable packages
+         (Geist Variable + Source Serif 4 Variable) imported in global.css. -->
 
     <!-- JSON-LD: local business -->
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -113,20 +107,7 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString(
 </html>
 
 <style is:global>
-  /* Tailwind v4 inline arbitrary color tokens mapped to CSS vars */
-  :root {
-    --tw-bg-bone-50: var(--color-bone-50);
-    --tw-bg-bone-100: var(--color-bone-100);
-    --tw-bg-bone-200: var(--color-bone-200);
-    --tw-text-ink-900: var(--color-ink-900);
-    --tw-text-ink-700: var(--color-ink-700);
-    --tw-text-ink-500: var(--color-ink-500);
-    --tw-text-ink-300: var(--color-ink-300);
-    --tw-text-accent-600: var(--color-accent-600);
-    --tw-text-accent-700: var(--color-accent-700);
-  }
-
-  /* Accessibility: visually hidden but focusable */
+  /* Accessibility: visually hidden but focusable. */
   .sr-only:not(:focus-within):not(:focus):not(:active) {
     position: absolute;
     width: 1px;

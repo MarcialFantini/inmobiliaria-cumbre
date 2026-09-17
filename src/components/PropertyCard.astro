@@ -18,14 +18,33 @@ const formatPrice = (price: number, currency: string, operation: string) => {
   return operation === 'Alquiler' ? `${formatted}/mes` : formatted;
 };
 ---
-
+<!--
+  Property card - Inmobiliaria Cumbre.
+  "Doble bezel" per spec:
+    - outer 1px gold hairline
+    - 2px gap (filled with bone-50 so the gold reads as a separate line)
+    - 1px inner bone-200 ring (the "inner bezel")
+    - subtle drop shadow tinted to ink (NOT heavy, NOT flat)
+  Primary CTA is deep forest (NOT red, NOT ink) - the brand signature.
+-->
 <article
-  class={`group bezel reveal h-full`}
+  class={`group relative reveal h-full`}
   data-variant={variant}
 >
-  <div class="bezel__core overflow-hidden flex flex-col h-full">
+  <div
+    class={`relative bg-cumbre-bone rounded-[1.25rem] overflow-hidden flex flex-col h-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-0.5 ${variant === 'wide' ? 'md:flex-row' : ''}`}
+    style="
+      box-shadow:
+        0 0 0 1px rgba(168, 138, 78, 0.55),
+        0 0 0 4px #F5F1E8,
+        0 0 0 5px rgba(225, 217, 197, 0.85),
+        0 10px 28px -14px rgba(26, 26, 26, 0.18);
+    "
+  >
     <!-- Image -->
-    <div class="relative aspect-[4/3] overflow-hidden bg-bone-200">
+    <div
+      class={`relative overflow-hidden bg-cumbre-bone-100 ${variant === 'wide' ? 'md:w-1/2 aspect-[4/3] md:aspect-auto' : 'aspect-[4/3]'}`}
+    >
       <img
         src={property.image}
         alt={`Render ilustrativo de ${property.title} en ${property.zone}`}
@@ -35,18 +54,25 @@ const formatPrice = (price: number, currency: string, operation: string) => {
         height="600"
         class="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
       />
-      <div class="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-bone-50/95 backdrop-blur-sm px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-ink-700">
+      <!-- Operation badge (top-left) -->
+      <div class="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-cumbre-bone/95 backdrop-blur-sm px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-cumbre-ink">
         {property.operation}
       </div>
+      <!-- Featured flag (top-right) -->
+      {property.featured && (
+        <div class="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-cumbre-forest px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-cumbre-bone">
+          Destacada
+        </div>
+      )}
     </div>
 
     <!-- Body -->
-    <div class="p-5 sm:p-6 flex flex-col flex-1">
+    <div class={`p-5 sm:p-6 flex flex-col flex-1 ${variant === 'wide' ? 'md:w-1/2 md:p-7 md:p-8' : ''}`}>
       <div class="flex items-start justify-between gap-3">
-        <h3 class="text-display-3 text-ink-900 leading-[1.05]">
+        <h3 class="text-display-3 text-cumbre-ink leading-[1.05]">
           {property.title}
         </h3>
-        <p class="text-[15px] font-semibold text-ink-900 whitespace-nowrap">
+        <p class="text-[15px] font-semibold text-cumbre-ink whitespace-nowrap">
           {formatPrice(property.price, property.currency, property.operation)}
         </p>
       </div>
@@ -61,33 +87,33 @@ const formatPrice = (price: number, currency: string, operation: string) => {
       </p>
 
       <!-- Specs -->
-      <ul class="mt-5 pt-5 border-t border-ink-100 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-ink-500">
+      <ul class="mt-5 pt-5 border-t border-cumbre-bone-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-ink-500">
         <li class="inline-flex items-center gap-1.5">
-          <Icon name="ruler" size={13} class="text-ink-700" />
-          {property.covered} m²
+          <Icon name="ruler" size={13} class="text-cumbre-ink" />
+          {property.covered} m&sup2;
         </li>
         <li class="inline-flex items-center gap-1.5">
-          <Icon name="bed" size={13} class="text-ink-700" />
+          <Icon name="bed" size={13} class="text-cumbre-ink" />
           {property.bedrooms} dorm.
         </li>
         <li class="inline-flex items-center gap-1.5">
-          <Icon name="bath" size={13} class="text-ink-700" />
+          <Icon name="bath" size={13} class="text-cumbre-ink" />
           {property.bathrooms} banos
         </li>
         <li class="inline-flex items-center gap-1.5">
-          <Icon name="car" size={13} class="text-ink-700" />
+          <Icon name="car" size={13} class="text-cumbre-ink" />
           {property.garage} cochera
         </li>
       </ul>
 
-      <!-- CTA -->
+      <!-- Primary CTA - forest (deep green), per brand spec. -->
       <a
         href="#contacto"
-        class="mt-6 inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-ink-900 text-bone-50 text-sm hover:bg-ink-700 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+        class="mt-6 inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-cumbre-forest text-cumbre-bone text-sm hover:bg-cumbre-accent-700 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
         aria-label={`Consultar por ${property.title} en ${property.zone}`}
       >
-        <span>Quiero visitarla</span>
-        <span class="grid place-items-center w-7 h-7 rounded-full bg-bone-50 text-ink-900 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+        <span>Ver propiedad</span>
+        <span class="grid place-items-center w-7 h-7 rounded-full bg-cumbre-bone text-cumbre-forest transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
           <Icon name="arrow-up-right" size={13} />
         </span>
       </a>

@@ -1,120 +1,180 @@
 @import "tailwindcss";
 
+/* Self-hosted variable fonts via @fontsource-variable.
+   Geist Variable is the UI / display sans, Geist Mono Variable is used for
+   numbers (process steps, tabular figures), and Source Serif 4 Variable
+   is the editorial pull-quote serif (accent only - never used for body). */
+@import "@fontsource-variable/geist/index.css";
+@import "@fontsource-variable/geist-mono/index.css";
+@import "@fontsource-variable/source-serif-4/index.css";
+
 /* ===========================================================
  * Design tokens - Inmobiliaria Cumbre
- * Editorial Luxury (per design-taste skill - NOT the beige/brass default).
- * Background: bone (off-white, not AI cream).
- * Text: deep ink (off-black, not pure #000).
- * Accent: deep emerald. Single saturated accent, locked.
- * Shape: pill for buttons, generous squircle for cards.
+ * Source of truth: IDENTIDADES-VISUALES.md, brand 08.
+ *
+ * Palette (flat spec tokens):
+ *   bone  #F5F1E8  warm light paper (page bg)
+ *   ink   #1A1A1A  body text (off-black, never pure #000)
+ *   forest #1F4D3A primary CTA + accent (deep green)
+ *   gold  #A88A4E  dividers + secondary accents (flat, never metallic)
+ *
+ * Display: Source Serif 4 Variable (pull quotes + accent ONLY).
+ * Body / UI: Geist Variable.
+ * Numbers: Geist Mono Variable (process steps, tabular figures).
+ *
+ * Anti-patterns we deliberately avoid:
+ *   - Full-bleed raw photos without cinematic overlay.
+ *   - Sans-serif everywhere (serif has a real job here).
+ *   - Shocking red CTAs.
+ *   - Shiny / metallic gold; gold is always flat #A88A4E.
  * =========================================================== */
 
-@theme {
-  /* Palette */
-  --color-bone-50: #FBFAF6;
-  --color-bone-100: #F4F1EA;
-  --color-bone-200: #E9E4D9;
-  --color-bone-300: #D9D2C2;
+:root {
+  color-scheme: light;
 
-  --color-ink-50: #F5F5F4;
-  --color-ink-100: #E7E5E4;
-  --color-ink-300: #A8A29E;
-  --color-ink-500: #57534E;
-  --color-ink-700: #292524;
-  --color-ink-900: #14110F;
-  --color-ink-950: #0B0908;
+  /* Flat spec tokens (single hex each, used directly in components). */
+  --color-bone: #F5F1E8;
+  --color-ink: #1A1A1A;
+  --color-forest: #1F4D3A;
+  --color-gold: #A88A4E;
+}
+
+@theme {
+  /* ----- Palette: flat spec tokens exposed as Tailwind utilities. -----
+     These are the brand colors. Use `cumbre-*` for primary work. */
+  --color-cumbre-bone: #F5F1E8;
+  --color-cumbre-ink: #1A1A1A;
+  --color-cumbre-forest: #1F4D3A;
+  --color-cumbre-gold: #A88A4E;
+
+  /* ----- Palette: tonal scales around the spec tokens -----
+     Kept for shades (hover states, tints, etc.). All align with the
+     Cumbre palette - bone scale is warm off-white, ink scale is warm
+     off-black, accent scale is a green ramp rooted at forest. */
+  --color-bone-50: #F5F1E8;
+  --color-bone-100: #ECE6D6;
+  --color-bone-200: #E1D9C5;
+  --color-bone-300: #CFC4AB;
+
+  --color-ink-50: #F4F2EE;
+  --color-ink-100: #E5E3DF;
+  --color-ink-300: #9E9892;
+  --color-ink-500: #5C5852;
+  --color-ink-700: #2D2A26;
+  --color-ink-900: #1A1A1A;
+  --color-ink-950: #0F0E0D;
 
   --color-accent-50: #ECF6F0;
-  --color-accent-200: #A9D6BE;
-  --color-accent-400: #4FA77A;
-  --color-accent-500: #2F8861;
-  --color-accent-600: #1F6B4A;
-  --color-accent-700: #155239;
-  --color-accent-900: #082818;
+  --color-accent-200: #B4DBC7;
+  --color-accent-400: #5FA982;
+  --color-accent-500: #3F8762;
+  --color-accent-600: #1F4D3A; /* = forest */
+  --color-accent-700: #143A2A;
+  --color-accent-900: #08281A;
 
-  /* Type - Sans (Geist) for body/UI, Serif (Fraunces... wait, banned).
-     Use Plus Jakarta Display for headlines (sans display) and
-     Source Serif 4 for editorial pull-quotes.
-     Actually per skill: SERIF BANNED as default. Use a real editorial
-     serif only when brand justifies it. Here brand IS editorial real
-     estate. Use Source Serif 4 (not banned, different from previous
-     projects). */
-  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Geist', ui-sans-serif, system-ui, sans-serif;
-  --font-serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
-  --font-mono: 'Geist Mono', ui-monospace, 'JetBrains Mono', monospace;
+  --color-gold-50: #F6F1E4;
+  --color-gold-200: #D9C99A;
+  --color-gold-400: #BFA168;
+  --color-gold-500: #A88A4E; /* = gold */
+  --color-gold-700: #7E6535;
 
-  /* Radii */
+  /* ----- Type -----
+     Geist Variable for UI / display, Source Serif 4 Variable for
+     editorial pull-quotes only. Geist Mono for numbers and process steps. */
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system,
+               'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Source Serif 4 Variable', 'Iowan Old Style', Georgia, serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'JetBrains Mono', monospace;
+
+  /* ----- Radii -----
+     Pill for buttons (touch-friendly), squircle for cards (premium feel). */
   --radius-pill: 9999px;
   --radius-squircle: 1.75rem;
   --radius-card: 1.25rem;
 
-  /* Spacing rhythm */
+  /* ----- Spacing rhythm ----- */
   --section-y: clamp(4rem, 8vw, 7rem);
 
-  /* Shadows (tinted, not pure black) */
-  --shadow-soft: 0 1px 2px rgba(20, 17, 15, 0.04), 0 8px 24px rgba(20, 17, 15, 0.06);
-  --shadow-lift: 0 2px 4px rgba(20, 17, 15, 0.04), 0 24px 48px -16px rgba(20, 17, 15, 0.18);
-  --shadow-inner-edge: inset 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 -1px 0 rgba(20, 17, 15, 0.04);
-}
+  /* ----- Shadows (tinted to ink, never pure black) ----- */
+  --shadow-soft: 0 1px 2px rgba(26, 26, 26, 0.04),
+                 0 8px 24px rgba(26, 26, 26, 0.06);
+  --shadow-lift: 0 2px 4px rgba(26, 26, 26, 0.04),
+                 0 24px 48px -16px rgba(26, 26, 26, 0.18);
+  --shadow-inner-edge: inset 0 1px 0 rgba(255, 255, 255, 0.65),
+                       inset 0 -1px 0 rgba(26, 26, 26, 0.04);
 
-/* ===========================================================
- * Self-hosted-ish fonts via @fontsource runtime.
- * Geist and Source Serif 4 served locally for performance.
- * (We load via @import in <head> from local CSS for stability.)
- * =========================================================== */
+  /* Doble bezel: outer gold hairline + inner bone hairline + soft shadow.
+     Used for property cards per the brand spec. */
+  --shadow-doble-bezel: 0 1px 0 rgba(168, 138, 78, 0.55),
+                        0 2px 12px rgba(26, 26, 26, 0.05);
+}
 
 /* ===========================================================
  * Base layer
  * =========================================================== */
 
 @layer base {
-  :root {
-    color-scheme: light;
-  }
-
+  /* Native CSS reset (lightweight, Tailwind v4 preflight covers most). */
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; }
   html {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-color: var(--color-bone-50);
-    color: var(--color-ink-900);
+    background-color: var(--color-bone);
+    color: var(--color-ink);
     scroll-behavior: smooth;
   }
-
   body {
+    font-family: var(--font-sans);
     font-feature-settings: 'ss01', 'cv11';
     line-height: 1.55;
     min-height: 100dvh;
+    background-color: var(--color-bone);
+    color: var(--color-ink);
   }
+  img, svg, video { display: block; max-width: 100%; }
+  button { font: inherit; cursor: pointer; }
+  input, select, textarea { font: inherit; color: inherit; }
 
   ::selection {
-    background-color: var(--color-accent-600);
-    color: var(--color-bone-50);
+    background-color: var(--color-forest);
+    color: var(--color-bone);
   }
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
     line-height: 1.04;
+    color: var(--color-ink);
   }
 
-  /* Fluid display scale (clamp-based) */
+  /* Fluid display scale (clamp-based). H1 is Geist (sans), not serif.
+     - display-1 caps at text-6xl (60px) per brand spec.
+     - display-2 caps at text-5xl (48px) for clear hierarchy below h1.
+     - display-3 caps at text-3xl (30px). */
   .text-display-1 {
-    font-size: clamp(2.75rem, 6vw + 0.5rem, 5.75rem);
-    line-height: 0.98;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4.5vw + 0.5rem, 3.75rem);
+    line-height: 1.02;
     letter-spacing: -0.035em;
+    font-weight: 600;
   }
   .text-display-2 {
-    font-size: clamp(2rem, 3.6vw + 0.5rem, 3.75rem);
-    line-height: 1.02;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3vw + 0.5rem, 3rem);
+    line-height: 1.08;
     letter-spacing: -0.028em;
+    font-weight: 600;
   }
   .text-display-3 {
-    font-size: clamp(1.5rem, 2.2vw + 0.5rem, 2.25rem);
-    line-height: 1.08;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2vw + 0.5rem, 2rem);
+    line-height: 1.12;
     letter-spacing: -0.02em;
+    font-weight: 600;
   }
   .text-eyebrow {
     font-family: var(--font-mono);
@@ -124,26 +184,44 @@
     color: var(--color-ink-500);
     font-weight: 500;
   }
+  /* Editorial pull-quote style: serif italic with gold accent line above.
+     Used sparingly (testimonials, hero quote, manifesto). */
   .text-italic-serif {
     font-family: var(--font-serif);
     font-style: italic;
     font-weight: 400;
     letter-spacing: -0.005em;
   }
-
-  a {
-    color: inherit;
-    text-decoration: none;
+  .pull-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+    color: var(--color-ink);
+    position: relative;
+    padding-top: 1.25rem;
+  }
+  .pull-quote::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.5rem;
+    height: 1px;
+    background-color: var(--color-gold);
   }
 
-  /* Focus rings - high-contrast, visible, a11y */
+  a { color: inherit; text-decoration: none; }
+
+  /* Focus rings - high-contrast, visible, a11y. */
   :focus-visible {
-    outline: 2px solid var(--color-accent-600);
+    outline: 2px solid var(--color-forest);
     outline-offset: 3px;
     border-radius: 4px;
   }
 
-  /* Reduced motion */
+  /* Reduced motion. */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.001ms !important;
@@ -158,7 +236,10 @@
  * =========================================================== */
 
 @layer components {
-  /* Pill button (CTA - button-in-button trailing icon pattern) */
+  /* Pill button (CTA - button-in-button trailing icon pattern).
+     .btn-primary stays in deep ink (premium hero CTA).
+     .btn-forest is the property-card CTA: deep green per spec,
+     NOT red shocking. */
   .btn-pill {
     display: inline-flex;
     align-items: center;
@@ -174,12 +255,8 @@
                 box-shadow 600ms cubic-bezier(0.32, 0.72, 0, 1);
     will-change: transform;
   }
-  .btn-pill:hover {
-    transform: translateY(-1px);
-  }
-  .btn-pill:active {
-    transform: translateY(0) scale(0.985);
-  }
+  .btn-pill:hover { transform: translateY(-1px); }
+  .btn-pill:active { transform: translateY(0) scale(0.985); }
   .btn-pill__icon {
     display: inline-flex;
     align-items: center;
@@ -194,34 +271,44 @@
   }
 
   .btn-primary {
-    background-color: var(--color-ink-900);
-    color: var(--color-bone-50);
+    background-color: var(--color-ink);
+    color: var(--color-bone);
     box-shadow: var(--shadow-soft);
   }
-  .btn-primary:hover {
-    background-color: var(--color-ink-700);
-  }
+  .btn-primary:hover { background-color: var(--color-ink-700); }
   .btn-primary .btn-pill__icon {
-    background-color: var(--color-bone-50);
-    color: var(--color-ink-900);
+    background-color: var(--color-bone);
+    color: var(--color-ink);
   }
 
-  .btn-accent {
-    background-color: var(--color-accent-600);
-    color: var(--color-bone-50);
+  /* Forest (deep green) primary CTA - the brand's signature CTA color.
+     Used on property cards, inline calls to action, dark bands. */
+  .btn-forest {
+    background-color: var(--color-forest);
+    color: var(--color-bone);
     box-shadow: var(--shadow-soft);
   }
-  .btn-accent:hover {
-    background-color: var(--color-accent-700);
+  .btn-forest:hover { background-color: var(--color-accent-700); }
+  .btn-forest .btn-pill__icon {
+    background-color: var(--color-bone);
+    color: var(--color-forest);
   }
+
+  /* Alias kept for backward compat - now points at forest CTA. */
+  .btn-accent {
+    background-color: var(--color-forest);
+    color: var(--color-bone);
+    box-shadow: var(--shadow-soft);
+  }
+  .btn-accent:hover { background-color: var(--color-accent-700); }
   .btn-accent .btn-pill__icon {
-    background-color: var(--color-bone-50);
-    color: var(--color-accent-700);
+    background-color: var(--color-bone);
+    color: var(--color-forest);
   }
 
   .btn-ghost {
     background-color: transparent;
-    color: var(--color-ink-900);
+    color: var(--color-ink);
     border: 1px solid var(--color-ink-100);
   }
   .btn-ghost:hover {
@@ -229,19 +316,21 @@
     border-color: var(--color-ink-300);
   }
   .btn-ghost .btn-pill__icon {
-    background-color: var(--color-ink-900);
-    color: var(--color-bone-50);
+    background-color: var(--color-ink);
+    color: var(--color-bone);
   }
 
-  /* Double-bezel card (outer shell + inner core) */
+  /* Single-bezel (kept for form / hero inner panels).
+     Doble bezel lives on .property-card via inline utilities - it composes
+     an outer gold border + inner bone border + subtle shadow. */
   .bezel {
     position: relative;
     padding: 1px;
-    background: linear-gradient(180deg, rgba(20, 17, 15, 0.08), rgba(20, 17, 15, 0.02));
+    background: linear-gradient(180deg, rgba(26, 26, 26, 0.08), rgba(26, 26, 26, 0.02));
     border-radius: var(--radius-squircle);
   }
   .bezel__core {
-    background-color: var(--color-bone-50);
+    background-color: var(--color-bone);
     border-radius: calc(var(--radius-squircle) - 1px);
     box-shadow: var(--shadow-inner-edge);
   }
@@ -249,12 +338,12 @@
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
   }
   .bezel--dark .bezel__core {
-    background-color: var(--color-ink-900);
-    color: var(--color-bone-50);
+    background-color: var(--color-ink);
+    color: var(--color-bone);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
-  /* Input style */
+  /* Form fields */
   .field {
     display: flex;
     flex-direction: column;
@@ -273,52 +362,43 @@
   .field__textarea {
     width: 100%;
     padding: 0.875rem 1rem;
-    background-color: var(--color-bone-50);
+    background-color: var(--color-bone);
     border: 1px solid var(--color-ink-100);
     border-radius: 14px;
     font-size: 0.9375rem;
-    color: var(--color-ink-900);
+    color: var(--color-ink);
     transition: border-color 400ms cubic-bezier(0.32, 0.72, 0, 1),
                 box-shadow 400ms cubic-bezier(0.32, 0.72, 0, 1);
     font-family: inherit;
   }
-  .field__textarea {
-    min-height: 7rem;
-    resize: vertical;
-    line-height: 1.5;
-  }
+  .field__textarea { min-height: 7rem; resize: vertical; line-height: 1.5; }
   .field__input::placeholder,
-  .field__textarea::placeholder {
-    color: var(--color-ink-300);
-  }
+  .field__textarea::placeholder { color: var(--color-ink-300); }
   .field__input:focus,
   .field__select:focus,
   .field__textarea:focus {
     outline: none;
-    border-color: var(--color-accent-600);
-    box-shadow: 0 0 0 4px rgba(31, 107, 74, 0.12);
+    border-color: var(--color-forest);
+    box-shadow: 0 0 0 4px rgba(31, 77, 58, 0.14);
   }
-  .field__hint {
-    font-size: 0.8125rem;
-    color: var(--color-ink-500);
-  }
+  .field__hint { font-size: 0.8125rem; color: var(--color-ink-500); }
   .field--error .field__input,
   .field--error .field__select,
-  .field--error .field__textarea {
-    border-color: #B23A48;
-  }
-  .field--error .field__hint {
-    color: #B23A48;
-  }
+  .field--error .field__textarea { border-color: #B23A48; }
+  .field--error .field__hint { color: #B23A48; }
 
-  /* Hairline rule */
-  .hairline {
-    border-color: var(--color-ink-100);
+  .hairline { border-color: var(--color-ink-100); }
+
+  /* Gold hairline rule (section divider). */
+  .gold-rule {
+    height: 1px;
+    background-color: var(--color-gold);
+    opacity: 0.55;
   }
 }
 
 /* ===========================================================
- * Utilities - reveal-on-scroll
+ * Utilities
  * =========================================================== */
 
 .reveal {
@@ -341,7 +421,7 @@
   .reveal { opacity: 1; transform: none; }
 }
 
-/* Subtle paper grain (only on fixed pseudo-element, never on scroll containers) */
+/* Subtle paper grain (fixed pseudo-element, never on scroll containers). */
 .paper-grain::after {
   content: "";
   position: fixed;
