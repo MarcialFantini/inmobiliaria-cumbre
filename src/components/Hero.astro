@@ -1,0 +1,79 @@
+---
+import Icon from './Icon.astro';
+---
+
+<section class="relative overflow-hidden">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-16 pb-20 md:pt-24 md:pb-32">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end">
+      <!-- Left: headline + CTAs -->
+      <div class="lg:col-span-7">
+        <p class="text-eyebrow reveal">
+          <span class="inline-flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent-600" aria-hidden="true"></span>
+            Inmobiliaria en zona norte
+          </span>
+        </p>
+
+        <h1 class="mt-7 text-display-1 text-ink-900 reveal reveal-delay-1">
+          Encontramos la propiedad
+          <span class="text-italic-serif text-accent-700">adecuada</span>
+          para tu proxima decada.
+        </h1>
+
+        <p class="mt-8 max-w-[36ch] text-lg text-ink-700 leading-relaxed reveal reveal-delay-2">
+          Casas, departamentos y PH curados en Pilar, Nordelta, San Isidro y Vicente Lopez. Sin catálogo infinito: solo propiedades reales que valen tu tiempo.
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-3 reveal reveal-delay-3">
+          <a href="#contacto" class="btn-pill btn-primary">
+            <span>Quiero que me contacten</span>
+            <span class="btn-pill__icon"><Icon name="arrow-up-right" size={15} /></span>
+          </a>
+          <a href="#propiedades" class="btn-pill btn-ghost">
+            <span>Ver propiedades</span>
+            <span class="btn-pill__icon"><Icon name="arrow-right" size={15} /></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: editorial card -->
+      <div class="lg:col-span-5 reveal reveal-delay-2">
+        <div class="bezel bezel--dark">
+          <div class="bezel__core p-6 sm:p-8 md:p-10">
+            <div class="flex items-center justify-between">
+              <p class="text-eyebrow text-bone-300">Esta semana</p>
+              <span class="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-[0.16em] text-accent-200">
+                <span class="w-1.5 h-1.5 rounded-full bg-accent-400" aria-hidden="true"></span>
+                5 activas
+              </span>
+            </div>
+
+            <div class="mt-8 relative aspect-[4/5] overflow-hidden rounded-[1.25rem] bg-ink-700">
+              <img
+                src="/images/hero/property-hero.svg"
+                alt="Ilustracion editorial de una casa moderna en zona norte con galeria y jardin"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="800"
+                height="1000"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="mt-8">
+              <p class="text-italic-serif text-bone-200 text-xl leading-snug">
+                "No vendemos propiedades. Acompañamos personas que toman una de las decisiones mas grandes de su vida."
+              </p>
+              <p class="mt-5 text-[13px] font-mono uppercase tracking-[0.18em] text-bone-300">
+                Lucrecia Maidana
+                <span class="text-bone-300/60"> - </span>
+                <span class="text-accent-200">Fundadora</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

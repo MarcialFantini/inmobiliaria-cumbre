@@ -1,0 +1,101 @@
+---
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+
+const navLinks = [
+  { label: 'Propiedades', href: '/#propiedades' },
+  { label: 'Proceso', href: '/#proceso' },
+  { label: 'Contacto', href: '/#contacto' },
+  { label: 'Aviso legal', href: '#' },
+];
+
+const contactLinks = [
+  { label: 'WhatsApp +54 9 11 4000-0000', href: 'https://wa.me/5491140000000', icon: 'whatsapp' as const },
+  { label: 'hola@inmobiliaria-cumbre.com.ar', href: 'mailto:hola@inmobiliaria-cumbre.com.ar', icon: 'mail' as const },
+  { label: 'Av. Siempre Viva 742, Pilar Centro', href: '#', icon: 'map-pin' as const },
+];
+---
+
+<footer class="mt-24 md:mt-32 bg-ink-950 text-bone-100">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-16 md:py-24">
+    <!-- Top: brand + manifesto -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 pb-12 border-b border-white/10">
+      <div class="md:col-span-7">
+        <p class="text-eyebrow text-bone-300">Nuestra promesa</p>
+        <p class="mt-5 text-display-3 text-bone-50 max-w-[18ch]">
+          Una sola persona responde cada consulta, de punta a punta.
+        </p>
+        <p class="mt-5 text-italic-serif text-bone-200 text-lg max-w-[36ch]">
+          Sin call center, sin derivaciones, sin promesas que no podamos cumplir.
+        </p>
+      </div>
+      <div class="md:col-span-5 flex md:justify-end">
+        <a href="#contacto" class="btn-pill btn-accent">
+          <span>Hablar con un asesor</span>
+          <span class="btn-pill__icon"><Icon name="arrow-up-right" size={16} /></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Middle: navigation + contact -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 py-12 border-b border-white/10">
+      <div class="md:col-span-4">
+        <div class="flex items-center gap-2.5">
+          <span class="grid place-items-center w-8 h-8 rounded-full bg-bone-50 text-ink-900">
+            <span class="text-[13px] font-semibold tracking-tight">C</span>
+          </span>
+          <span class="flex flex-col leading-none">
+            <span class="text-[15px] font-semibold tracking-tight text-bone-50">Cumbre</span>
+            <span class="text-[10px] font-mono uppercase tracking-[0.18em] text-bone-300 mt-0.5">Inmobiliaria</span>
+          </span>
+        </div>
+        <p class="mt-5 text-sm text-bone-300 max-w-[32ch]">
+          Operamos en Pilar, Nordelta, San Isidro, Boulogne y Vicente Lopez desde 2014.
+        </p>
+      </div>
+
+      <div class="md:col-span-3">
+        <p class="text-eyebrow text-bone-300">Navegacion</p>
+        <ul class="mt-4 space-y-2.5">
+          {navLinks.map((l) => (
+            <li>
+              <a href={l.href} class="text-sm text-bone-100 hover:text-bone-50 transition-colors">
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="md:col-span-5">
+        <p class="text-eyebrow text-bone-300">Contacto directo</p>
+        <ul class="mt-4 space-y-3">
+          {contactLinks.map((c) => (
+            <li>
+              <a
+                href={c.href}
+                class="inline-flex items-center gap-2.5 text-sm text-bone-100 hover:text-bone-50 transition-colors"
+              >
+                <span class="grid place-items-center w-8 h-8 rounded-full bg-white/10 text-bone-50">
+                  <Icon name={c.icon} size={14} />
+                </span>
+                {c.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom: legal -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 pt-10">
+      <p class="text-xs text-bone-300">
+        &copy; {year} Inmobiliaria Cumbre. Todos los derechos reservados.
+      </p>
+      <p class="text-xs font-mono uppercase tracking-[0.18em] text-bone-300">
+        CMCPSI 6000 - Matricula profesional vigente
+      </p>
+    </div>
+  </div>
+</footer>

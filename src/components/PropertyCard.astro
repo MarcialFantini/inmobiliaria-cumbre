@@ -1,0 +1,96 @@
+---
+import Icon from './Icon.astro';
+import type { Property } from '@/types/lead';
+
+interface Props {
+  property: Property;
+  variant?: 'default' | 'wide';
+}
+
+const { property, variant = 'default' } = Astro.props;
+
+const formatPrice = (price: number, currency: string, operation: string) => {
+  const formatted = new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0,
+  }).format(price);
+  return operation === 'Alquiler' ? `${formatted}/mes` : formatted;
+};
+---
+
+<article
+  class={`group bezel reveal h-full`}
+  data-variant={variant}
+>
+  <div class="bezel__core overflow-hidden flex flex-col h-full">
+    <!-- Image -->
+    <div class="relative aspect-[4/3] overflow-hidden bg-bone-200">
+      <img
+        src={property.image}
+        alt={`Render ilustrativo de ${property.title} en ${property.zone}`}
+        loading="lazy"
+        decoding="async"
+        width="800"
+        height="600"
+        class="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+      />
+      <div class="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-bone-50/95 backdrop-blur-sm px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-ink-700">
+        {property.operation}
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="p-5 sm:p-6 flex flex-col flex-1">
+      <div class="flex items-start justify-between gap-3">
+        <h3 class="text-display-3 text-ink-900 leading-[1.05]">
+          {property.title}
+        </h3>
+        <p class="text-[15px] font-semibold text-ink-900 whitespace-nowrap">
+          {formatPrice(property.price, property.currency, property.operation)}
+        </p>
+      </div>
+
+      <p class="mt-2 inline-flex items-center gap-1.5 text-sm text-ink-500">
+        <Icon name="map-pin" size={14} />
+        {property.zone}
+      </p>
+
+      <p class="mt-4 text-sm text-ink-700 leading-relaxed flex-1">
+        {property.tagline}
+      </p>
+
+      <!-- Specs -->
+      <ul class="mt-5 pt-5 border-t border-ink-100 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-ink-500">
+        <li class="inline-flex items-center gap-1.5">
+          <Icon name="ruler" size={13} class="text-ink-700" />
+          {property.covered} m²
+        </li>
+        <li class="inline-flex items-center gap-1.5">
+          <Icon name="bed" size={13} class="text-ink-700" />
+          {property.bedrooms} dorm.
+        </li>
+        <li class="inline-flex items-center gap-1.5">
+          <Icon name="bath" size={13} class="text-ink-700" />
+          {property.bathrooms} banos
+        </li>
+        <li class="inline-flex items-center gap-1.5">
+          <Icon name="car" size={13} class="text-ink-700" />
+          {property.garage} cochera
+        </li>
+      </ul>
+
+      <!-- CTA -->
+      <a
+        href="#contacto"
+        class="mt-6 inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-ink-900 text-bone-50 text-sm hover:bg-ink-700 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+        aria-label={`Consultar por ${property.title} en ${property.zone}`}
+      >
+        <span>Quiero visitarla</span>
+        <span class="grid place-items-center w-7 h-7 rounded-full bg-bone-50 text-ink-900 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+          <Icon name="arrow-up-right" size={13} />
+        </span>
+      </a>
+    </div>
+  </div>
+</article>

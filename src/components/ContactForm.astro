@@ -1,0 +1,314 @@
+---
+import Icon from './Icon.astro';
+import zonesData from '@/data/properties.json';
+
+const zones = zonesData.zones;
+---
+
+<section id="contacto" class="relative scroll-mt-24">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+      <!-- Left column: copy + reassurance -->
+      <div class="lg:col-span-5">
+        <p class="text-eyebrow reveal">Contacto</p>
+        <h2 class="mt-5 text-display-2 text-ink-900 reveal reveal-delay-1">
+          Contanos que estas buscando.
+        </h2>
+        <p class="mt-6 text-ink-700 text-lg leading-relaxed max-w-[38ch] reveal reveal-delay-2">
+          Completas este formulario, te respondemos en menos de 36 horas con opciones reales que coincidan con tu busqueda.
+        </p>
+
+        <ul class="mt-10 space-y-5 reveal reveal-delay-3">
+          <li class="flex items-start gap-3">
+            <span class="grid place-items-center w-9 h-9 rounded-full bg-accent-50 text-accent-700 flex-shrink-0">
+              <Icon name="shield" size={16} />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-ink-900">Tus datos no se comparten.</p>
+              <p class="text-sm text-ink-500 mt-0.5">Nunca vendemos ni cedemos tu informacion de contacto.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="grid place-items-center w-9 h-9 rounded-full bg-accent-50 text-accent-700 flex-shrink-0">
+              <Icon name="clock" size={16} />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-ink-900">Respuesta humana en menos de 36 h.</p>
+              <p class="text-sm text-ink-500 mt-0.5">Te escribe directamente un asesor, no un bot.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="grid place-items-center w-9 h-9 rounded-full bg-accent-50 text-accent-700 flex-shrink-0">
+              <Icon name="key" size={16} />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-ink-900">Sin compromiso de compra.</p>
+              <p class="text-sm text-ink-500 mt-0.5">Pedir informacion es gratis y no te obliga a nada.</p>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Direct contact alternatives -->
+        <div class="mt-12 pt-8 border-t border-ink-100 reveal reveal-delay-4">
+          <p class="text-eyebrow text-ink-500">O escribinos directo</p>
+          <div class="mt-4 flex flex-col gap-3">
+            <a
+              href="https://wa.me/5491140000000?text=Hola%2C%20me%20interesa%20una%20propiedad%20en%20zona%20norte"
+              class="inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-bone-100 text-ink-900 hover:bg-bone-200 transition-colors"
+              aria-label="Contactar por WhatsApp"
+            >
+              <span class="inline-flex items-center gap-2 text-sm">
+                <Icon name="whatsapp" size={16} class="text-accent-600" />
+                WhatsApp +54 9 11 4000-0000
+              </span>
+              <Icon name="arrow-up-right" size={14} />
+            </a>
+            <a
+              href="mailto:hola@inmobiliaria-cumbre.com.ar"
+              class="inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-bone-100 text-ink-900 hover:bg-bone-200 transition-colors"
+              aria-label="Enviar un correo electronico"
+            >
+              <span class="inline-flex items-center gap-2 text-sm">
+                <Icon name="mail" size={16} class="text-accent-600" />
+                hola@inmobiliaria-cumbre.com.ar
+              </span>
+              <Icon name="arrow-up-right" size={14} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column: form card (double-bezel) -->
+      <div class="lg:col-span-7">
+        <form
+          id="lead-form"
+          method="POST"
+          action="/api/lead"
+          class="bezel reveal reveal-delay-2"
+          novalidate
+        >
+          <div class="bezel__core p-6 sm:p-8 md:p-10">
+            <!-- Honeypot anti-spam -->
+            <div class="absolute -left-[10000px] top-auto w-px h-px overflow-hidden" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="field" data-field="nombre">
+                <label class="field__label" for="nombre">Nombre</label>
+                <input
+                  class="field__input"
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  required
+                  autocomplete="name"
+                  minlength="2"
+                  maxlength="80"
+                  placeholder="Tu nombre"
+                />
+                <p class="field__hint" data-hint>Ingresa tu nombre completo.</p>
+              </div>
+
+              <div class="field" data-field="email">
+                <label class="field__label" for="email">Email</label>
+                <input
+                  class="field__input"
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  autocomplete="email"
+                  placeholder="tu@correo.com"
+                />
+                <p class="field__hint" data-hint>Te respondemos a este correo.</p>
+              </div>
+
+              <div class="field" data-field="telefono">
+                <label class="field__label" for="telefono">Telefono</label>
+                <input
+                  class="field__input"
+                  type="tel"
+                  id="telefono"
+                  name="telefono"
+                  required
+                  autocomplete="tel"
+                  inputmode="tel"
+                  placeholder="+54 11 5555 5555"
+                />
+                <p class="field__hint" data-hint>Con codigo de area, por favor.</p>
+              </div>
+
+              <div class="field" data-field="presupuesto">
+                <label class="field__label" for="presupuesto">Presupuesto aproximado (USD)</label>
+                <input
+                  class="field__input"
+                  type="number"
+                  id="presupuesto"
+                  name="presupuesto"
+                  min="0"
+                  step="1000"
+                  placeholder="180000"
+                />
+                <p class="field__hint" data-hint>Opcional. Nos ayuda a buscar mejor.</p>
+              </div>
+
+              <div class="field" data-field="operacion">
+                <label class="field__label" for="operacion">Operacion</label>
+                <select class="field__select" id="operacion" name="operacion" required>
+                  <option value="">Elegi una opcion</option>
+                  <option value="compra">Comprar</option>
+                  <option value="alquiler">Alquilar</option>
+                </select>
+                <p class="field__hint" data-hint>Que tipo de operacion te interesa.</p>
+              </div>
+
+              <div class="field" data-field="tipoPropiedad">
+                <label class="field__label" for="tipoPropiedad">Tipo de propiedad</label>
+                <select class="field__select" id="tipoPropiedad" name="tipoPropiedad" required>
+                  <option value="">Elegi una opcion</option>
+                  <option value="casa">Casa</option>
+                  <option value="departamento">Departamento</option>
+                  <option value="ph">PH</option>
+                  <option value="terreno">Terreno</option>
+                  <option value="local">Local comercial</option>
+                </select>
+                <p class="field__hint" data-hint>Que tipo de inmueble buscas.</p>
+              </div>
+
+              <div class="field sm:col-span-2" data-field="zona">
+                <label class="field__label" for="zona">Zona de interes</label>
+                <select class="field__select" id="zona" name="zona" required>
+                  <option value="">Elegi una zona</option>
+                  {zones.map((z) => <option value={z}>{z}</option>)}
+                </select>
+                <p class="field__hint" data-hint>Zona principal donde te gustaria vivir.</p>
+              </div>
+
+              <div class="field sm:col-span-2" data-field="mensaje">
+                <label class="field__label" for="mensaje">Mensaje (opcional)</label>
+                <textarea
+                  class="field__textarea"
+                  id="mensaje"
+                  name="mensaje"
+                  rows="4"
+                  maxlength="1000"
+                  placeholder="Contanos cualquier detalle relevante: caracteristicas, fechas de mudanza, financiación..."
+                ></textarea>
+                <p class="field__hint" data-hint>Cuanto mas nos cuentes, mejor te vamos a poder ayudar.</p>
+              </div>
+            </div>
+
+            <!-- Status region (a11y live) -->
+            <div
+              id="form-status"
+              class="mt-6 hidden"
+              role="status"
+              aria-live="polite"
+            ></div>
+
+            <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+              <p class="text-xs text-ink-500 max-w-[42ch]">
+                Al enviar aceptas recibir contacto comercial de Inmobiliaria Cumbre. No usamos tus datos para newsletter ni spam.
+              </p>
+              <button
+                id="lead-submit"
+                type="submit"
+                class="btn-pill btn-primary self-start sm:self-auto"
+              >
+                <span data-label>Enviar consulta</span>
+                <span class="btn-pill__icon" data-icon>
+                  <Icon name="arrow-up-right" size={15} />
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  type ApiResponse =
+    | { ok: true; id: string }
+    | { ok: false; errors?: { field: string; message: string }[]; message?: string };
+
+  const form = document.getElementById('lead-form') as HTMLFormElement | null;
+  const submit = document.getElementById('lead-submit') as HTMLButtonElement | null;
+  const status = document.getElementById('form-status');
+
+  if (form && submit && status) {
+    const setStatus = (kind: 'ok' | 'error' | 'info', text: string) => {
+      status.classList.remove('hidden', 'bg-accent-50', 'text-accent-700', 'bg-[#FBE9EB]', 'text-[#7A1F2B]', 'bg-bone-100', 'text-ink-700');
+      status.classList.add(
+        kind === 'ok' ? 'bg-accent-50 text-accent-700' :
+        kind === 'error' ? 'bg-[#FBE9EB] text-[#7A1F2B]' :
+        'bg-bone-100 text-ink-700',
+      );
+      status.classList.add('rounded-2xl', 'px-4', 'py-3', 'text-sm');
+      status.textContent = text;
+    };
+
+    const clearFieldErrors = () => {
+      form.querySelectorAll('[data-field].field--error').forEach((el) => el.classList.remove('field--error'));
+    };
+
+    const setFieldError = (field: string, message: string) => {
+      const wrap = form.querySelector(`[data-field="${field}"]`);
+      if (wrap) {
+        wrap.classList.add('field--error');
+        const hint = wrap.querySelector('[data-hint]');
+        if (hint) hint.textContent = message;
+      }
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearFieldErrors();
+      status.classList.add('hidden');
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Disable button
+      submit.disabled = true;
+      const label = submit.querySelector('[data-label]') as HTMLElement | null;
+      const icon = submit.querySelector('[data-icon]') as HTMLElement | null;
+      const originalLabel = label?.textContent ?? '';
+      if (label) label.textContent = 'Enviando...';
+
+      try {
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        const json = (await res.json()) as ApiResponse;
+
+        if (res.ok && json.ok) {
+          // Redirect to /gracias with lead id
+          const url = new URL('/gracias', window.location.origin);
+          if ('id' in json && json.id) url.searchParams.set('id', json.id);
+          window.location.href = url.toString();
+          return;
+        }
+
+        if (!json.ok && json.errors && Array.isArray(json.errors)) {
+          for (const e of json.errors) setFieldError(e.field, e.message);
+          setStatus('error', json.message ?? 'Revisa los campos marcados e intenta de nuevo.');
+        } else {
+          setStatus('error', 'No pudimos enviar tu consulta. Intenta de nuevo en unos minutos.');
+        }
+      } catch {
+        setStatus('error', 'Error de conexion. Verifica tu red e intenta de nuevo.');
+      } finally {
+        submit.disabled = false;
+        if (label) label.textContent = originalLabel;
+        if (icon) icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 7h9v9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+    });
+  }
+</script>

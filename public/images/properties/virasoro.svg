@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E4E8"/>
+      <stop offset="100%" stop-color="#A9C4CB"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3F5A6E"/>
+      <stop offset="100%" stop-color="#2A3F50"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="800" height="280" fill="url(#sky2)"/>
+  <!-- Lake -->
+  <rect y="380" width="800" height="220" fill="url(#lake)"/>
+  <!-- Distant trees -->
+  <path d="M0,380 Q200,340 400,360 T800,350 L800,380 Z" fill="#3F5A38" opacity="0.7"/>
+  <!-- Modern building (loft) -->
+  <rect x="280" y="160" width="320" height="240" fill="#1A1A1A"/>
+  <!-- Glass facade -->
+  <g fill="#88B0BC" opacity="0.85">
+    <rect x="300" y="180" width="80" height="100"/>
+    <rect x="390" y="180" width="80" height="100"/>
+    <rect x="480" y="180" width="80" height="100"/>
+    <rect x="300" y="290" width="280" height="90"/>
+  </g>
+  <!-- Frame lines -->
+  <g stroke="#1A1A1A" stroke-width="3">
+    <line x1="380" y1="180" x2="380" y2="380"/>
+    <line x1="470" y1="180" x2="470" y2="380"/>
+    <line x1="290" y1="280" x2="590" y2="280"/>
+  </g>
+  <!-- Terrace -->
+  <rect x="280" y="395" width="320" height="6" fill="#FBFAF6"/>
+  <!-- Reflection on lake -->
+  <g opacity="0.35" transform="translate(0,400) scale(1,-0.6)">
+    <rect x="280" y="160" width="320" height="240" fill="#1A1A1A"/>
+  </g>
+  <!-- Birds -->
+  <g stroke="#1A1A1A" stroke-width="2" fill="none">
+    <path d="M120 100 q5 -5 10 0 q5 -5 10 0"/>
+    <path d="M180 130 q4 -4 8 0 q4 -4 8 0"/>
+    <path d="M620 80 q5 -5 10 0 q5 -5 10 0"/>
+  </g>
+</svg>

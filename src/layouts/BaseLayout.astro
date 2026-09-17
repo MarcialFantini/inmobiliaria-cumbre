@@ -1,0 +1,141 @@
+---
+import '@/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const {
+  title = 'Inmobiliaria Cumbre - Propiedades en zona norte',
+  description = 'Casas, departamentos y PH en Pilar, Nordelta, San Isidro y Vicente Lopez. Atencion personalizada, agenda una visita esta semana.',
+  ogImage = '/og-image.svg',
+  canonical,
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() ?? 'https://inmobiliaria-cumbre.example';
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#FBFAF6" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="es_AR" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts - preconnect + load from Google Fonts (CDN, fallback self-hosted would be better).
+         Geist (sans display) + Source Serif 4 (editorial pull-quotes). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,400;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD: local business -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'RealEstateAgent',
+      name: 'Inmobiliaria Cumbre',
+      url: siteUrl,
+      areaServed: 'Zona Norte del Gran Buenos Aires',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Av. Siempre Viva 742',
+        addressLocality: 'Pilar',
+        addressRegion: 'Buenos Aires',
+        addressCountry: 'AR',
+      },
+      telephone: '+54 11 4000-0000',
+      openingHours: 'Mo-Fr 09:00-18:00',
+    })} />
+  </head>
+
+  <body class="paper-grain">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-ink-900 focus:text-bone-50 focus:px-4 focus:py-2 focus:rounded-full"
+    >
+      Saltar al contenido principal
+    </a>
+
+    <slot />
+
+    <script>
+      // Reveal-on-scroll via IntersectionObserver (no window.addEventListener('scroll')).
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+      );
+      const observe = () => {
+        document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => io.observe(el));
+      };
+      observe();
+      // Re-observe after DOM changes (Astro view transitions etc.)
+      const mo = new MutationObserver(() => observe());
+      mo.observe(document.body, { childList: true, subtree: true });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Tailwind v4 inline arbitrary color tokens mapped to CSS vars */
+  :root {
+    --tw-bg-bone-50: var(--color-bone-50);
+    --tw-bg-bone-100: var(--color-bone-100);
+    --tw-bg-bone-200: var(--color-bone-200);
+    --tw-text-ink-900: var(--color-ink-900);
+    --tw-text-ink-700: var(--color-ink-700);
+    --tw-text-ink-500: var(--color-ink-500);
+    --tw-text-ink-300: var(--color-ink-300);
+    --tw-text-accent-600: var(--color-accent-600);
+    --tw-text-accent-700: var(--color-accent-700);
+  }
+
+  /* Accessibility: visually hidden but focusable */
+  .sr-only:not(:focus-within):not(:focus):not(:active) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

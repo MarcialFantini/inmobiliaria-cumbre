@@ -1,0 +1,136 @@
+---
+import Icon from './Icon.astro';
+
+const navLinks = [
+  { label: 'Propiedades', href: '#propiedades' },
+  { label: 'Como trabajamos', href: '#proceso' },
+  { label: 'Contacto', href: '#contacto' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+    <div class="mt-4 md:mt-6 flex items-center justify-between rounded-full border border-ink-100 bg-bone-50/85 backdrop-blur-md px-3 sm:px-4 py-2.5 shadow-[0_1px_2px_rgba(20,17,15,0.04),0_8px_24px_rgba(20,17,15,0.06)]">
+      <!-- Brand -->
+      <a href="/" class="flex items-center gap-2.5 group" aria-label="Inmobiliaria Cumbre, inicio">
+        <span class="grid place-items-center w-8 h-8 rounded-full bg-ink-900 text-bone-50 transition-transform duration-700 group-hover:rotate-[18deg]">
+          <span class="text-[13px] font-semibold tracking-tight">C</span>
+        </span>
+        <span class="hidden sm:flex flex-col leading-none">
+          <span class="text-[15px] font-semibold tracking-tight text-ink-900">Cumbre</span>
+          <span class="text-[10px] font-mono uppercase tracking-[0.18em] text-ink-500 mt-0.5">Inmobiliaria</span>
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-1" aria-label="Navegacion principal">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="relative px-3 py-2 text-sm text-ink-700 hover:text-ink-900 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Contact (desktop) -->
+      <a
+        href="tel:+541140000000"
+        class="hidden lg:inline-flex items-center gap-2 text-[13px] text-ink-700 hover:text-ink-900 transition-colors duration-500"
+        aria-label="Llamar a Inmobiliaria Cumbre"
+      >
+        <Icon name="phone" size={15} />
+        +54 11 4000-0000
+      </a>
+
+      <!-- Mobile menu trigger -->
+      <button
+        type="button"
+        class="md:hidden grid place-items-center w-10 h-10 rounded-full border border-ink-100 text-ink-900"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+      >
+        <Icon name="menu" size={18} class="data-[open=true]:hidden" data-menu-icon-open />
+        <Icon name="close" size={18} class="hidden data-[open=true]:block" data-menu-icon-close />
+      </button>
+    </div>
+
+    <!-- Mobile menu panel -->
+    <div
+      id="mobile-menu"
+      hidden
+      class="md:hidden mt-2 rounded-3xl border border-ink-100 bg-bone-50 shadow-[0_24px_48px_-16px_rgba(20,17,15,0.18)] overflow-hidden"
+    >
+      <nav class="flex flex-col p-3" aria-label="Navegacion movil">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="px-4 py-3 text-base text-ink-900 hover:bg-bone-100 rounded-2xl transition-colors"
+            data-menu-link
+          >
+            {link.label}
+          </a>
+        ))}
+        <a
+          href="tel:+541140000000"
+          class="mt-2 mx-3 mb-3 inline-flex items-center justify-center gap-2 btn-pill btn-primary"
+        >
+          <span>Llamar ahora</span>
+          <span class="btn-pill__icon"><Icon name="phone" size={15} /></span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const panel = document.getElementById('mobile-menu');
+  const iconOpen = document.querySelector<HTMLElement>('[data-menu-icon-open]');
+  const iconClose = document.querySelector<HTMLElement>('[data-menu-icon-close]');
+
+  if (toggle && panel && iconOpen && iconClose) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.hidden = !open;
+      iconOpen.dataset.open = String(open);
+      iconClose.dataset.open = String(open);
+      iconOpen.classList.toggle('hidden', open);
+      iconOpen.classList.toggle('block', !open);
+      iconClose.classList.toggle('hidden', !open);
+      iconClose.classList.toggle('block', open);
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      setOpen(!isOpen);
+    });
+
+    panel.querySelectorAll<HTMLAnchorElement>('[data-menu-link]').forEach((a) => {
+      a.addEventListener('click', () => setOpen(false));
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+
+  // Suppress unused warning for currentPath - useful for later active-link styling.
+  void (null);
+</script>
+
+<style>
+  /* Hide path: unused on landing page today, kept for future active state. */
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  @media (min-width: 768px) {
+    nav[aria-label='Navegacion movil'] { display: none; }
+  }
+</style>

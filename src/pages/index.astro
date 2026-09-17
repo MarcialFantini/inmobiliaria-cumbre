@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Hero from '@/components/Hero.astro';
+import TrustStrip from '@/components/TrustStrip.astro';
+import Stats from '@/components/Stats.astro';
+import FeaturedProperties from '@/components/FeaturedProperties.astro';
+import Process from '@/components/Process.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout
+  title="Inmobiliaria Cumbre - Casas, deptos y PH en zona norte"
+  description="Curaduria de propiedades en Pilar, Nordelta, San Isidro y Vicente Lopez. Acompañamos tu busqueda de punta a punta."
+>
+  <Header />
+
+  <main id="main">
+    <Hero />
+
+    <TrustStrip />
+
+    <!-- Stats sits in its own dark band for editorial rhythm -->
+    <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-20 md:pt-28">
+      <Stats />
+    </div>
+
+    <FeaturedProperties />
+
+    <Process />
+
+    <ContactForm />
+  </main>
+
+  <Footer />
+</BaseLayout>

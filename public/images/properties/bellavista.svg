@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8DDC4"/>
+      <stop offset="100%" stop-color="#F4E9D2"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A8B62"/>
+      <stop offset="100%" stop-color="#5A6B4A"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="800" height="380" fill="url(#sky)"/>
+  <!-- Ground / garden -->
+  <rect y="380" width="800" height="220" fill="url(#ground)"/>
+  <!-- Trees background -->
+  <g fill="#3F5A38" opacity="0.85">
+    <ellipse cx="80" cy="320" rx="60" ry="55"/>
+    <ellipse cx="160" cy="310" rx="50" ry="48"/>
+    <ellipse cx="720" cy="320" rx="60" ry="55"/>
+    <ellipse cx="640" cy="310" rx="50" ry="48"/>
+  </g>
+  <!-- House body -->
+  <rect x="220" y="280" width="360" height="180" fill="#F5EFE3"/>
+  <!-- Roof -->
+  <polygon points="200,280 400,170 600,280" fill="#2D2520"/>
+  <!-- Windows -->
+  <g fill="#3B2F25">
+    <rect x="260" y="320" width="50" height="70" rx="2"/>
+    <rect x="490" y="320" width="50" height="70" rx="2"/>
+    <rect x="370" y="200" width="60" height="50" rx="2"/>
+  </g>
+  <!-- Window glass highlight -->
+  <g fill="#FBFAF6" opacity="0.25">
+    <rect x="265" y="325" width="40" height="60"/>
+    <rect x="495" y="325" width="40" height="60"/>
+    <rect x="375" y="205" width="50" height="40"/>
+  </g>
+  <!-- Door -->
+  <rect x="370" y="370" width="60" height="90" fill="#1F6B4A" rx="2"/>
+  <circle cx="420" cy="420" r="2" fill="#FBFAF6"/>
+  <!-- Pool hint -->
+  <rect x="240" y="490" width="120" height="40" rx="4" fill="#5A8FA8" opacity="0.85"/>
+  <!-- Path -->
+  <rect x="380" y="460" width="40" height="100" fill="#D9D2C2"/>
+  <!-- Sun -->
+  <circle cx="650" cy="120" r="40" fill="#FBFAF6" opacity="0.7"/>
+</svg>

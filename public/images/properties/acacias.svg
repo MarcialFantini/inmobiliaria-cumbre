@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0E5D2"/>
+      <stop offset="100%" stop-color="#E0D0B6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#sky4)"/>
+  <!-- Ground -->
+  <rect y="430" width="800" height="170" fill="#6B7A55"/>
+  <!-- Path -->
+  <polygon points="280,600 520,600 460,430 340,430" fill="#C9B89A"/>
+  <!-- House (corridor-style, pasillo) -->
+  <rect x="160" y="180" width="480" height="270" fill="#E8DCC4"/>
+  <!-- Roof -->
+  <rect x="140" y="160" width="520" height="30" fill="#5C4329"/>
+  <!-- Entrance arch (typical PH pasillo) -->
+  <path d="M340,450 L340,300 Q400,260 460,300 L460,450 Z" fill="#3A2418"/>
+  <!-- Door -->
+  <rect x="360" y="320" width="80" height="130" fill="#1F6B4A"/>
+  <!-- Side windows -->
+  <g>
+    <rect x="200" y="240" width="60" height="80" fill="#3A2418" rx="2"/>
+    <rect x="205" y="245" width="50" height="35" fill="#88B0BC" opacity="0.6"/>
+    <rect x="205" y="285" width="50" height="30" fill="#88B0BC" opacity="0.6"/>
+
+    <rect x="540" y="240" width="60" height="80" fill="#3A2418" rx="2"/>
+    <rect x="545" y="245" width="50" height="35" fill="#88B0BC" opacity="0.6"/>
+    <rect x="545" y="285" width="50" height="30" fill="#88B0BC" opacity="0.6"/>
+  </g>
+  <!-- Pileta -->
+  <rect x="190" y="490" width="160" height="50" rx="4" fill="#3F6E8C"/>
+  <g stroke="#FBFAF6" stroke-width="2" opacity="0.4">
+    <line x1="195" y1="510" x2="345" y2="510"/>
+    <line x1="195" y1="525" x2="345" y2="525"/>
+  </g>
+  <!-- Trees -->
+  <g>
+    <ellipse cx="80" cy="420" rx="50" ry="60" fill="#3F5A38"/>
+    <ellipse cx="720" cy="420" rx="55" ry="60" fill="#3F5A38"/>
+  </g>
+  <!-- Garden chairs -->
+  <g fill="#1F6B4A" opacity="0.85">
+    <rect x="510" y="500" width="60" height="6" rx="2"/>
+    <rect x="510" y="510" width="60" height="6" rx="2"/>
+  </g>
+</svg>

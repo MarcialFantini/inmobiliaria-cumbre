@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+
+const items = [
+  {
+    icon: 'shield' as const,
+    title: 'Matricula CMCPSI 6000',
+    body: 'Operacion legalmente respaldada por el Colegio de Martilleros.',
+  },
+  {
+    icon: 'clock' as const,
+    title: '36 h de respuesta',
+    body: 'Una persona real responde, no un bot ni un call center.',
+  },
+  {
+    icon: 'key' as const,
+    title: 'Sin compromiso',
+    body: 'Pedir informacion es gratis y no te obliga a nada.',
+  },
+];
+---
+
+<section aria-label="Confianza" class="border-y border-ink-100 bg-bone-100/40">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-10 md:py-12">
+    <ul class="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-10">
+      {items.map((item, i) => (
+        <li class={`reveal ${i > 0 ? `reveal-delay-${i}` : ''} flex items-start gap-4`}>
+          <span class="grid place-items-center w-10 h-10 rounded-full bg-accent-50 text-accent-700 flex-shrink-0">
+            <Icon name={item.icon} size={16} />
+          </span>
+          <div>
+            <p class="text-sm font-semibold text-ink-900">{item.title}</p>
+            <p class="text-sm text-ink-700 mt-1 leading-relaxed max-w-[36ch]">{item.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

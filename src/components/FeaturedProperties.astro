@@ -1,0 +1,58 @@
+---
+import PropertyCard from './PropertyCard.astro';
+import propertiesData from '@/data/properties.json';
+import type { Property } from '@/types/lead';
+import Icon from './Icon.astro';
+
+const featured = (propertiesData.properties as Property[]).filter((p) => p.featured);
+---
+
+<section id="propiedades" class="relative scroll-mt-24">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-20 md:py-28">
+    <!-- Section header -->
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
+      <div class="max-w-2xl">
+        <p class="text-eyebrow reveal">Propiedades destacadas</p>
+        <h2 class="mt-5 text-display-2 text-ink-900 reveal reveal-delay-1">
+          Una seleccion pequena, curada esta semana.
+        </h2>
+      </div>
+      <p class="text-ink-700 leading-relaxed max-w-sm reveal reveal-delay-2">
+        Si ninguna de estas encaja, contanos y armamos una busqueda a medida. Tenemos acceso a todo el mercado de zona norte.
+      </p>
+    </div>
+
+    <!-- Bento grid: 1 large + 2 stacked -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      <div class="md:col-span-2 reveal reveal-delay-2">
+        <PropertyCard property={featured[0]} variant="wide" />
+      </div>
+      <div class="md:col-span-1 reveal reveal-delay-3">
+        <PropertyCard property={featured[1]} />
+      </div>
+      <div class="md:col-span-1 reveal reveal-delay-4">
+        <PropertyCard property={featured[2]} />
+      </div>
+      <div class="md:col-span-2 bezel bezel--dark reveal reveal-delay-5">
+        <div class="bezel__core p-6 sm:p-8 md:p-10 flex flex-col justify-between min-h-[280px] md:min-h-[320px]">
+          <div>
+            <p class="text-eyebrow text-bone-300">Catalogo completo</p>
+            <p class="mt-5 text-display-3 text-bone-50 max-w-[20ch]">
+              Mas de 200 propiedades activas.
+            </p>
+            <p class="mt-4 text-italic-serif text-bone-200 text-lg max-w-[36ch]">
+              Te enviamos un informe semanal con todo lo que aparece en tu zona, sin que tengas que pedirlo.
+            </p>
+          </div>
+          <a
+            href="#contacto"
+            class="btn-pill btn-accent self-start mt-6"
+          >
+            <span>Pedir mi informe</span>
+            <span class="btn-pill__icon"><Icon name="arrow-up-right" size={15} /></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,183 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Icon from '@/components/Icon.astro';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import type { LeadRecord } from '@/types/lead';
+
+const id = Astro.url.searchParams.get('id');
+
+// Load lead (best-effort) so we can personalize. If anything fails, we still show the confirmation.
+let lead: LeadRecord | null = null;
+try {
+  const file = path.resolve(process.cwd(), 'data', 'leads.json');
+  const raw = await fs.readFile(file, 'utf-8');
+  const list: LeadRecord[] = JSON.parse(raw);
+  if (id) {
+    lead = list.find((l) => l.id === id) ?? null;
+  }
+} catch {
+  // file might not exist on first run; that's fine.
+}
+
+const firstName = lead?.nombre.split(/\s+/)[0] ?? '';
+const operationLabel = lead
+  ? lead.operacion === 'compra'
+    ? 'comprar'
+    : 'alquilar'
+  : '';
+const propertyLabel = lead
+  ? {
+      casa: 'casa',
+      departamento: 'departamento',
+      ph: 'PH',
+      terreno: 'terreno',
+      local: 'local comercial',
+    }[lead.tipoPropiedad] ?? ''
+  : '';
+const zoneLabel = lead?.zona ?? '';
+
+const personalized = Boolean(firstName && operationLabel && propertyLabel);
+---
+
+<BaseLayout
+  title="Gracias por tu consulta - Inmobiliaria Cumbre"
+  description="Recibimos tu consulta. Te respondemos en menos de 36 horas."
+>
+  <Header />
+
+  <main id="main" class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-16 pb-24 md:pt-24 md:pb-32">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <!-- Left: confirmation -->
+      <div class="lg:col-span-7">
+        <p class="text-eyebrow reveal">
+          <span class="inline-flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent-600" aria-hidden="true"></span>
+            Consulta recibida
+          </span>
+        </p>
+
+        <h1 class="mt-6 text-display-1 text-ink-900 reveal reveal-delay-1">
+          {firstName ? `Gracias, ${firstName}.` : 'Gracias por escribirnos.'}
+        </h1>
+
+        <p class="mt-8 text-lg text-ink-700 leading-relaxed max-w-[44ch] reveal reveal-delay-2">
+          {personalized
+            ? `Registramos tu interes en ${operationLabel} un ${propertyLabel} en ${zoneLabel}. Un asesor te va a responder a este mismo correo en menos de 36 horas.`
+            : 'Registramos tu consulta. Un asesor te va a responder al correo que nos dejaste en menos de 36 horas.'}
+        </p>
+
+        <!-- Next steps -->
+        <ol class="mt-12 space-y-3 reveal reveal-delay-3" aria-label="Proximos pasos">
+          <li class="bezel">
+            <div class="bezel__core p-5 sm:p-6 flex gap-5 items-start">
+              <span class="grid place-items-center w-10 h-10 rounded-full bg-accent-50 text-accent-700 flex-shrink-0">
+                <Icon name="mail" size={16} />
+              </span>
+              <div>
+                <p class="text-sm font-semibold text-ink-900">Confirmacion por correo</p>
+                <p class="text-sm text-ink-700 mt-1 max-w-[48ch]">
+                  Te enviamos un email con el resumen de tu consulta. Si no llega en 5 minutos, revisa spam o promociones.
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="bezel">
+            <div class="bezel__core p-5 sm:p-6 flex gap-5 items-start">
+              <span class="grid place-items-center w-10 h-10 rounded-full bg-accent-50 text-accent-700 flex-shrink-0">
+                <Icon name="phone" size={16} />
+              </span>
+              <div>
+                <p class="text-sm font-semibold text-ink-900">Llamada del asesor</p>
+                <p class="text-sm text-ink-700 mt-1 max-w-[48ch]">
+                  Dentro de las proximas 36 horas un asesor te escribe por WhatsApp o te llama al numero que nos dejaste.
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="bezel">
+            <div class="bezel__core p-5 sm:p-6 flex gap-5 items-start">
+              <span class="grid place-items-center w-10 h-10 rounded-full bg-accent-50 text-accent-700 flex-shrink-0">
+                <Icon name="key" size={16} />
+              </span>
+              <div>
+                <p class="text-sm font-semibold text-ink-900">Curaduria a medida</p>
+                <p class="text-sm text-ink-700 mt-1 max-w-[48ch]">
+                  Mientras tanto, ya empezamos a buscar propiedades que coincidan con lo que nos contaste.
+                </p>
+              </div>
+            </div>
+          </li>
+        </ol>
+
+        <div class="mt-12 flex flex-wrap items-center gap-3 reveal reveal-delay-4">
+          <a href="/" class="btn-pill btn-ghost">
+            <span>Volver al inicio</span>
+            <span class="btn-pill__icon"><Icon name="arrow-right" size={15} /></span>
+          </a>
+          <a
+            href="https://wa.me/5491140000000"
+            class="btn-pill btn-primary"
+          >
+            <span>Hablar por WhatsApp ahora</span>
+            <span class="btn-pill__icon"><Icon name="whatsapp" size={15} /></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: sidebar / reference card -->
+      <aside class="lg:col-span-5 lg:sticky lg:top-28 reveal reveal-delay-3">
+        <div class="bezel bezel--dark">
+          <div class="bezel__core p-6 sm:p-8">
+            <p class="text-eyebrow text-bone-300">Tu consulta</p>
+
+            {lead ? (
+              <dl class="mt-6 space-y-4 text-sm">
+                <div>
+                  <dt class="text-eyebrow text-bone-300">Nombre</dt>
+                  <dd class="mt-1 text-bone-50">{lead.nombre}</dd>
+                </div>
+                <div>
+                  <dt class="text-eyebrow text-bone-300">Contacto</dt>
+                  <dd class="mt-1 text-bone-50">{lead.email}</dd>
+                  <dd class="text-bone-200">{lead.telefono}</dd>
+                </div>
+                <div>
+                  <dt class="text-eyebrow text-bone-300">Busqueda</dt>
+                  <dd class="mt-1 text-bone-50">
+                    {lead.operacion === 'compra' ? 'Comprar' : 'Alquilar'} un{' '}
+                    {{
+                      casa: 'casa',
+                      departamento: 'departamento',
+                      ph: 'PH',
+                      terreno: 'terreno',
+                      local: 'local comercial',
+                    }[lead.tipoPropiedad] ?? lead.tipoPropiedad}{' '}
+                    en {lead.zona}
+                  </dd>
+                  {lead.presupuesto !== undefined && (
+                    <dd class="text-bone-200 mt-1">
+                      Presupuesto aprox. USD {lead.presupuesto.toLocaleString('es-AR')}
+                    </dd>
+                  )}
+                </div>
+                <div>
+                  <dt class="text-eyebrow text-bone-300">ID de seguimiento</dt>
+                  <dd class="mt-1 font-mono text-xs text-bone-200 break-all">{lead.id}</dd>
+                </div>
+              </dl>
+            ) : (
+              <p class="mt-6 text-sm text-bone-200">
+                Si nos escribiste hace instantes, el resumen aparecera aqui en cuanto cargue el sistema. Mientras tanto, podes contactarnos por WhatsApp.
+              </p>
+            )}
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

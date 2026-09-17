@@ -1,0 +1,354 @@
+@import "tailwindcss";
+
+/* ===========================================================
+ * Design tokens - Inmobiliaria Cumbre
+ * Editorial Luxury (per design-taste skill - NOT the beige/brass default).
+ * Background: bone (off-white, not AI cream).
+ * Text: deep ink (off-black, not pure #000).
+ * Accent: deep emerald. Single saturated accent, locked.
+ * Shape: pill for buttons, generous squircle for cards.
+ * =========================================================== */
+
+@theme {
+  /* Palette */
+  --color-bone-50: #FBFAF6;
+  --color-bone-100: #F4F1EA;
+  --color-bone-200: #E9E4D9;
+  --color-bone-300: #D9D2C2;
+
+  --color-ink-50: #F5F5F4;
+  --color-ink-100: #E7E5E4;
+  --color-ink-300: #A8A29E;
+  --color-ink-500: #57534E;
+  --color-ink-700: #292524;
+  --color-ink-900: #14110F;
+  --color-ink-950: #0B0908;
+
+  --color-accent-50: #ECF6F0;
+  --color-accent-200: #A9D6BE;
+  --color-accent-400: #4FA77A;
+  --color-accent-500: #2F8861;
+  --color-accent-600: #1F6B4A;
+  --color-accent-700: #155239;
+  --color-accent-900: #082818;
+
+  /* Type - Sans (Geist) for body/UI, Serif (Fraunces... wait, banned).
+     Use Plus Jakarta Display for headlines (sans display) and
+     Source Serif 4 for editorial pull-quotes.
+     Actually per skill: SERIF BANNED as default. Use a real editorial
+     serif only when brand justifies it. Here brand IS editorial real
+     estate. Use Source Serif 4 (not banned, different from previous
+     projects). */
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'JetBrains Mono', monospace;
+
+  /* Radii */
+  --radius-pill: 9999px;
+  --radius-squircle: 1.75rem;
+  --radius-card: 1.25rem;
+
+  /* Spacing rhythm */
+  --section-y: clamp(4rem, 8vw, 7rem);
+
+  /* Shadows (tinted, not pure black) */
+  --shadow-soft: 0 1px 2px rgba(20, 17, 15, 0.04), 0 8px 24px rgba(20, 17, 15, 0.06);
+  --shadow-lift: 0 2px 4px rgba(20, 17, 15, 0.04), 0 24px 48px -16px rgba(20, 17, 15, 0.18);
+  --shadow-inner-edge: inset 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 -1px 0 rgba(20, 17, 15, 0.04);
+}
+
+/* ===========================================================
+ * Self-hosted-ish fonts via @fontsource runtime.
+ * Geist and Source Serif 4 served locally for performance.
+ * (We load via @import in <head> from local CSS for stability.)
+ * =========================================================== */
+
+/* ===========================================================
+ * Base layer
+ * =========================================================== */
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background-color: var(--color-bone-50);
+    color: var(--color-ink-900);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-feature-settings: 'ss01', 'cv11';
+    line-height: 1.55;
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-600);
+    color: var(--color-bone-50);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+
+  /* Fluid display scale (clamp-based) */
+  .text-display-1 {
+    font-size: clamp(2.75rem, 6vw + 0.5rem, 5.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+  .text-display-2 {
+    font-size: clamp(2rem, 3.6vw + 0.5rem, 3.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+  }
+  .text-display-3 {
+    font-size: clamp(1.5rem, 2.2vw + 0.5rem, 2.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .text-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-500);
+    font-weight: 500;
+  }
+  .text-italic-serif {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Focus rings - high-contrast, visible, a11y */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ===========================================================
+ * Component layer
+ * =========================================================== */
+
+@layer components {
+  /* Pill button (CTA - button-in-button trailing icon pattern) */
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem 0.875rem 1.5rem;
+    border-radius: var(--radius-pill);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    letter-spacing: -0.005em;
+    transition: transform 600ms cubic-bezier(0.32, 0.72, 0, 1),
+                background-color 600ms cubic-bezier(0.32, 0.72, 0, 1),
+                color 600ms cubic-bezier(0.32, 0.72, 0, 1),
+                box-shadow 600ms cubic-bezier(0.32, 0.72, 0, 1);
+    will-change: transform;
+  }
+  .btn-pill:hover {
+    transform: translateY(-1px);
+  }
+  .btn-pill:active {
+    transform: translateY(0) scale(0.985);
+  }
+  .btn-pill__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-pill);
+    transition: transform 600ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .btn-pill:hover .btn-pill__icon {
+    transform: translateX(2px) translateY(-1px) scale(1.04);
+  }
+
+  .btn-primary {
+    background-color: var(--color-ink-900);
+    color: var(--color-bone-50);
+    box-shadow: var(--shadow-soft);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-ink-700);
+  }
+  .btn-primary .btn-pill__icon {
+    background-color: var(--color-bone-50);
+    color: var(--color-ink-900);
+  }
+
+  .btn-accent {
+    background-color: var(--color-accent-600);
+    color: var(--color-bone-50);
+    box-shadow: var(--shadow-soft);
+  }
+  .btn-accent:hover {
+    background-color: var(--color-accent-700);
+  }
+  .btn-accent .btn-pill__icon {
+    background-color: var(--color-bone-50);
+    color: var(--color-accent-700);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-ink-900);
+    border: 1px solid var(--color-ink-100);
+  }
+  .btn-ghost:hover {
+    background-color: var(--color-bone-100);
+    border-color: var(--color-ink-300);
+  }
+  .btn-ghost .btn-pill__icon {
+    background-color: var(--color-ink-900);
+    color: var(--color-bone-50);
+  }
+
+  /* Double-bezel card (outer shell + inner core) */
+  .bezel {
+    position: relative;
+    padding: 1px;
+    background: linear-gradient(180deg, rgba(20, 17, 15, 0.08), rgba(20, 17, 15, 0.02));
+    border-radius: var(--radius-squircle);
+  }
+  .bezel__core {
+    background-color: var(--color-bone-50);
+    border-radius: calc(var(--radius-squircle) - 1px);
+    box-shadow: var(--shadow-inner-edge);
+  }
+  .bezel--dark {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+  }
+  .bezel--dark .bezel__core {
+    background-color: var(--color-ink-900);
+    color: var(--color-bone-50);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* Input style */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .field__label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-500);
+    font-weight: 500;
+  }
+  .field__input,
+  .field__select,
+  .field__textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background-color: var(--color-bone-50);
+    border: 1px solid var(--color-ink-100);
+    border-radius: 14px;
+    font-size: 0.9375rem;
+    color: var(--color-ink-900);
+    transition: border-color 400ms cubic-bezier(0.32, 0.72, 0, 1),
+                box-shadow 400ms cubic-bezier(0.32, 0.72, 0, 1);
+    font-family: inherit;
+  }
+  .field__textarea {
+    min-height: 7rem;
+    resize: vertical;
+    line-height: 1.5;
+  }
+  .field__input::placeholder,
+  .field__textarea::placeholder {
+    color: var(--color-ink-300);
+  }
+  .field__input:focus,
+  .field__select:focus,
+  .field__textarea:focus {
+    outline: none;
+    border-color: var(--color-accent-600);
+    box-shadow: 0 0 0 4px rgba(31, 107, 74, 0.12);
+  }
+  .field__hint {
+    font-size: 0.8125rem;
+    color: var(--color-ink-500);
+  }
+  .field--error .field__input,
+  .field--error .field__select,
+  .field--error .field__textarea {
+    border-color: #B23A48;
+  }
+  .field--error .field__hint {
+    color: #B23A48;
+  }
+
+  /* Hairline rule */
+  .hairline {
+    border-color: var(--color-ink-100);
+  }
+}
+
+/* ===========================================================
+ * Utilities - reveal-on-scroll
+ * =========================================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 80ms; }
+.reveal-delay-2 { transition-delay: 160ms; }
+.reveal-delay-3 { transition-delay: 240ms; }
+.reveal-delay-4 { transition-delay: 320ms; }
+.reveal-delay-5 { transition-delay: 400ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* Subtle paper grain (only on fixed pseudo-element, never on scroll containers) */
+.paper-grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='180' height='180' filter='url(%23n)' opacity='0.6'/></svg>");
+  mix-blend-mode: multiply;
+}
