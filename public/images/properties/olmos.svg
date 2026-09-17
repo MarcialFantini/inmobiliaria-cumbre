@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="cielo7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4F2EE"/>
+      <stop offset="100%" stop-color="#DCD4C0"/>
+    </linearGradient>
+  </defs>
+  <!-- Cielo -->
+  <rect width="800" height="600" fill="url(#cielo7)"/>
+  <!-- Arboles lejanos -->
+  <g fill="#5FA982" opacity="0.6">
+    <circle cx="60" cy="320" r="40"/>
+    <circle cx="140" cy="330" r="35"/>
+    <circle cx="700" cy="325" r="40"/>
+    <circle cx="760" cy="335" r="32"/>
+  </g>
+  <!-- Edificio torre - silueta minimalista -->
+  <rect x="280" y="120" width="240" height="380" fill="#F5F1E8"/>
+  <rect x="280" y="120" width="240" height="380" fill="none" stroke="#1A1A1A" stroke-width="2"/>
+  <!-- Grilla de ventanas -->
+  <g fill="#1F4D3A" opacity="0.55">
+    <!-- Fila 1 -->
+    <rect x="300" y="150" width="40" height="60"/>
+    <rect x="350" y="150" width="40" height="60"/>
+    <rect x="400" y="150" width="40" height="60"/>
+    <rect x="450" y="150" width="40" height="60"/>
+    <!-- Fila 2 -->
+    <rect x="300" y="230" width="40" height="60"/>
+    <rect x="350" y="230" width="40" height="60"/>
+    <rect x="400" y="230" width="40" height="60"/>
+    <rect x="450" y="230" width="40" height="60"/>
+    <!-- Fila 3 -->
+    <rect x="300" y="310" width="40" height="60"/>
+    <rect x="350" y="310" width="40" height="60"/>
+    <rect x="400" y="310" width="40" height="60"/>
+    <rect x="450" y="310" width="40" height="60"/>
+  </g>
+  <!-- Balcones -->
+  <g stroke="#1A1A1A" stroke-width="1.5" fill="#E1D9C5">
+    <rect x="395" y="240" width="50" height="3"/>
+    <rect x="395" y="320" width="50" height="3"/>
+  </g>
+  <!-- Piso bajo: acceso -->
+  <rect x="280" y="460" width="240" height="40" fill="#1A1A1A"/>
+  <rect x="380" y="465" width="40" height="35" fill="#A88A4E"/>
+  <!-- Vereda -->
+  <rect x="200" y="500" width="400" height="100" fill="#CFC4AB"/>
+  <!-- Sombra -->
+  <rect x="280" y="500" width="240" height="8" fill="#1A1A1A" opacity="0.25"/>
+  <!-- Linea de horizonte -->
+  <line x1="0" y1="500" x2="800" y2="500" stroke="#1A1A1A" stroke-width="1" opacity="0.3"/>
+</svg>

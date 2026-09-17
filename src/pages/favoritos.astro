@@ -1,0 +1,52 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Icon from '@/components/Icon.astro';
+import FavoritesList from '@/components/FavoritesList';
+import { getPropiedades } from '@/lib/catalogo';
+
+export const prerender = false;
+
+const propiedades = getPropiedades();
+---
+<BaseLayout
+  title="Mis favoritos - Inmobiliaria Cumbre"
+  description="Las propiedades que guardaste para revisar mas tarde."
+  canonical={new URL('/favoritos', Astro.site).toString()}
+>
+  <Header />
+
+  <main id="main">
+    <section class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-14 md:pt-20 pb-10 md:pb-14">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-end">
+        <div class="md:col-span-7">
+          <p class="text-eyebrow text-ink-500 reveal">
+            <span class="inline-flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-cumbre-forest" aria-hidden="true"></span>
+              Tus favoritos
+            </span>
+          </p>
+          <h1 class="mt-5 text-display-1 text-cumbre-ink reveal reveal-delay-1">
+            Lo que ten&eacute;s guardado.
+          </h1>
+          <p class="mt-6 max-w-[44ch] text-lg text-ink-700 leading-relaxed reveal reveal-delay-2">
+            Cada propiedad que guardes aparece ac&aacute;. Persistimos en tu navegador, as&iacute; que pod&eacute;s volver cuando quieras.
+          </p>
+        </div>
+        <div class="md:col-span-5 reveal reveal-delay-3 flex md:justify-end">
+          <a href="/propiedades" class="btn-pill btn-ghost">
+            <span>Explorar m&aacute;s</span>
+            <span class="btn-pill__icon"><Icon name="arrow-right" size={15} /></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pb-20 md:pb-28">
+      <FavoritesList client:only="preact" propiedades={propiedades} />
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

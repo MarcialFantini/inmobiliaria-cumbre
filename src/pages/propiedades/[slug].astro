@@ -1,0 +1,277 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Icon from '@/components/Icon.astro';
+import ImageGallery from '@/components/ImageGallery.astro';
+import PropertySidebar from '@/components/PropertySidebar.astro';
+import PropertyInquiryForm from '@/components/PropertyInquiryForm.astro';
+import MiniMap from '@/components/MiniMap.astro';
+import FavoriteButton from '@/components/FavoriteButton';
+import MortgageCalculator from '@/components/MortgageCalculator';
+import {
+  getPropiedades,
+  getPropiedadBySlug,
+  getAgenteById,
+} from '@/lib/catalogo';
+import {
+  formatM2,
+  formatOperacion,
+  formatTipo,
+  formatFecha,
+} from '@/lib/format';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+// 404 si no existe.
+const propiedad = slug ? getPropiedadBySlug(slug) : null;
+if (!propiedad) {
+  return new Response('Propiedad no encontrada', { status: 404 });
+}
+
+const agente = getAgenteById(propiedad.agenteId);
+const otras = getPropiedades()
+  .filter((p) => p.slug !== propiedad.slug && p.destacada)
+  .slice(0, 3);
+
+const descripcionParrafos = propiedad.descripcion.split('\n\n');
+const caracteristicas = propiedad.caracteristicas;
+---
+<BaseLayout
+  title={`${propiedad.titulo} - ${propiedad.barrio}, ${propiedad.ciudad} | Inmobiliaria Cumbre`}
+  description={`${propiedad.titulo} en ${propiedad.barrio}, ${propiedad.ciudad}. ${propiedad.m2Cubiertos} m² cubiertos, ${propiedad.dormitorios} dormitorios, ${propiedad.banos} baños. ${propiedad.caracteristicas[0] ?? ''}`}
+  canonical={new URL(`/propiedades/${propiedad.slug}`, Astro.site).toString()}
+>
+  <Header />
+
+  <main id="main">
+    <!-- Breadcrumb -->
+    <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-8 md:pt-10">
+      <nav aria-label="Breadcrumb" class="reveal">
+        <ol class="flex flex-wrap items-center gap-2 text-xs text-ink-500">
+          <li><a href="/" class="hover:text-ink-900">Inicio</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/propiedades" class="hover:text-ink-900">Cat&aacute;logo</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-ink-700">{propiedad.titulo}</li>
+        </ol>
+      </nav>
+    </div>
+
+    <!-- Hero editorial -->
+    <section class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-6 md:pt-8 pb-12 md:pb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-10 md:mb-14 reveal reveal-delay-1">
+        <div class="lg:col-span-8">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-cumbre-bone-100 px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-cumbre-ink">
+              {formatOperacion(propiedad.operacion)}
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-cumbre-bone-100 px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-cumbre-ink">
+              {formatTipo(propiedad.tipo)}
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-cumbre-bone-100 px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-cumbre-ink">
+              Publicada {formatFecha(propiedad.publicada)}
+            </span>
+          </div>
+          <h1 class="mt-5 text-display-1 text-cumbre-ink leading-[1.04]">
+            {propiedad.titulo}
+          </h1>
+          <p class="mt-4 inline-flex items-center gap-2 text-lg text-ink-700">
+            <Icon name="map-pin" size={16} />
+            {propiedad.direccion} &middot; {propiedad.barrio}, {propiedad.ciudad}
+          </p>
+        </div>
+        <div class="lg:col-span-4 flex lg:justify-end items-start gap-3">
+          <a href="/propiedades" class="btn-pill btn-ghost">
+            <span>Cat&aacute;logo</span>
+            <span class="btn-pill__icon"><Icon name="arrow-right" size={15} /></span>
+          </a>
+          <FavoriteButton client:load slug={propiedad.slug} variant="pill" />
+        </div>
+      </div>
+
+      <ImageGallery imagenes={propiedad.imagenes} titulo={propiedad.titulo} />
+    </section>
+
+    <!-- Specs rapidas (cintillo) -->
+    <section class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pb-12 reveal reveal-delay-2">
+      <dl class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 rounded-[1.25rem] bg-bone-100 p-5 sm:p-7 border border-ink-100">
+        <div>
+          <dt class="text-eyebrow text-ink-500">Cubiertos</dt>
+          <dd class="mt-2 text-display-3 text-ink-900 tabular-nums">{formatM2(propiedad.m2Cubiertos)}</dd>
+        </div>
+        <div>
+          <dt class="text-eyebrow text-ink-500">Terreno</dt>
+          <dd class="mt-2 text-display-3 text-ink-900 tabular-nums">{formatM2(propiedad.m2Terreno)}</dd>
+        </div>
+        <div>
+          <dt class="text-eyebrow text-ink-500">Dormitorios</dt>
+          <dd class="mt-2 text-display-3 text-ink-900 tabular-nums">{propiedad.dormitorios}</dd>
+        </div>
+        <div>
+          <dt class="text-eyebrow text-ink-500">Ba&ntilde;os</dt>
+          <dd class="mt-2 text-display-3 text-ink-900 tabular-nums">{propiedad.banos}</dd>
+        </div>
+        <div>
+          <dt class="text-eyebrow text-ink-500">Cocheras</dt>
+          <dd class="mt-2 text-display-3 text-ink-900 tabular-nums">{propiedad.cocheras}</dd>
+        </div>
+        <div>
+          <dt class="text-eyebrow text-ink-500">Antig&uuml;edad</dt>
+          <dd class="mt-2 text-display-3 text-ink-900 tabular-nums">{propiedad.antiguedad} a&ntilde;os</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Main content + sidebar -->
+    <section class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pb-20 md:pb-28">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+        <article class="lg:col-span-8 space-y-12 md:space-y-16">
+          <!-- Descripcion -->
+          <section aria-labelledby="desc-title" class="reveal">
+            <p class="text-eyebrow text-ink-500">Sobre la propiedad</p>
+            <h2 id="desc-title" class="mt-4 text-display-2 text-cumbre-ink">Una mirada en detalle.</h2>
+            <div class="mt-6 space-y-5 max-w-[64ch]">
+              {descripcionParrafos.map((p) => (
+                <p class="text-lg text-ink-700 leading-relaxed">{p}</p>
+              ))}
+            </div>
+          </section>
+
+          <!-- Caracteristicas -->
+          <section aria-labelledby="car-title" class="reveal">
+            <p class="text-eyebrow text-ink-500">Caracter&iacute;sticas destacadas</p>
+            <h2 id="car-title" class="mt-4 text-display-2 text-cumbre-ink">Lo que tiene para ofrecer.</h2>
+            <ul class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+              {caracteristicas.map((c) => (
+                <li class="flex items-start gap-3 text-base text-ink-900">
+                  <span class="grid place-items-center w-6 h-6 rounded-full bg-accent-50 text-accent-700 flex-shrink-0 mt-0.5">
+                    <Icon name="check" size={13} />
+                  </span>
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <!-- Ubicacion -->
+          <section aria-labelledby="ubi-title" class="reveal">
+            <p class="text-eyebrow text-ink-500">Ubicaci&oacute;n</p>
+            <h2 id="ubi-title" class="mt-4 text-display-2 text-cumbre-ink">D&oacute;nde est&aacute;.</h2>
+            <p class="mt-3 max-w-[44ch] text-ink-700">
+              {propiedad.direccion}, {propiedad.barrio}, {propiedad.ciudad}.
+            </p>
+            <div class="mt-6">
+              <MiniMap lat={propiedad.lat} lng={propiedad.lng} label={`${propiedad.titulo} - ${propiedad.barrio}`} />
+            </div>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <a
+                href={`https://www.google.com/maps?q=${propiedad.lat},${propiedad.lng}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-pill btn-ghost"
+              >
+                <span>Abrir en Google Maps</span>
+                <span class="btn-pill__icon"><Icon name="arrow-up-right" size={14} /></span>
+              </a>
+              <a href="/propiedades/mapa" class="btn-pill btn-ghost">
+                <span>Ver mapa interactivo</span>
+                <span class="btn-pill__icon"><Icon name="arrow-right" size={14} /></span>
+              </a>
+            </div>
+          </section>
+
+          <!-- Calculadora -->
+          <section aria-labelledby="mc-title" class="reveal">
+            <p class="text-eyebrow text-ink-500">Financiamiento</p>
+            <h2 id="mc-title" class="mt-4 text-display-2 text-cumbre-ink">Cuota mensual estimada.</h2>
+            <p class="mt-3 max-w-[44ch] text-ink-700">
+              Sistema franc&eacute;s. Ajust&aacute; precio, plazo y tasa para tener una referencia.
+            </p>
+            <div class="mt-6">
+              <MortgageCalculator
+                client:visible
+                defaultPrecio={propiedad.precioUSD ?? 200000}
+                propertyLabel={propiedad.titulo}
+              />
+            </div>
+          </section>
+
+          <!-- Form -->
+          <section id="contacto" aria-labelledby="cta-title" class="reveal scroll-mt-28">
+            <p class="text-eyebrow text-ink-500">Te respondemos</p>
+            <h2 id="cta-title" class="mt-4 text-display-2 text-cumbre-ink">Coordinemos una visita.</h2>
+            <p class="mt-3 max-w-[48ch] text-ink-700">
+              Complet&aacute; el formulario y un asesor te escribe en menos de 36 h. Sin compromiso de compra.
+            </p>
+            <div class="mt-6">
+              <PropertyInquiryForm
+                propiedadTitulo={propiedad.titulo}
+                propiedadSlug={propiedad.slug}
+                operacion={propiedad.operacion}
+                barrio={propiedad.barrio}
+                ciudad={propiedad.ciudad}
+              />
+            </div>
+          </section>
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-4 lg:sticky lg:top-28 self-start">
+          <PropertySidebar propiedad={propiedad} agente={agente} />
+        </aside>
+      </div>
+    </section>
+
+    <!-- Otras destacadas -->
+    {otras.length > 0 && (
+      <section class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pb-20 md:pb-28">
+        <div class="gold-rule mb-10" aria-hidden="true"></div>
+        <div class="flex items-end justify-between gap-6 mb-8 reveal">
+          <div>
+            <p class="text-eyebrow text-ink-500">Otras propiedades</p>
+            <h2 class="mt-3 text-display-2 text-cumbre-ink">Tambi&eacute;n te puede interesar.</h2>
+          </div>
+          <a href="/propiedades" class="hidden md:inline-flex items-center gap-2 text-sm text-cumbre-forest hover:underline">
+            Ver todo
+            <Icon name="arrow-right" size={14} />
+          </a>
+        </div>
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {otras.map((o) => (
+            <li>
+              <a href={`/propiedades/${o.slug}`} class="group block reveal">
+                <figure
+                  class="relative aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-cumbre-bone-100"
+                  style="box-shadow: 0 0 0 1px rgba(168,138,78,0.45);"
+                >
+                  <img
+                    src={o.imagenes[0]}
+                    alt={`Imagen de ${o.titulo}`}
+                    loading="lazy"
+                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
+                  />
+                </figure>
+                <div class="mt-4 flex items-baseline justify-between gap-3">
+                  <h3 class="text-lg font-semibold text-ink-900 group-hover:text-cumbre-forest transition-colors">
+                    {o.titulo}
+                  </h3>
+                  <span class="text-sm font-semibold text-ink-900 tabular-nums">
+                    {o.operacion === 'venta' && typeof o.precioUSD === 'number'
+                      ? `USD ${o.precioUSD.toLocaleString('es-AR')}`
+                      : `USD ${(o.alquilerUSD ?? 0).toLocaleString('es-AR')}/mes`}
+                  </span>
+                </div>
+                <p class="mt-1 text-sm text-ink-500">{o.barrio}, {o.ciudad}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,173 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  propiedadTitulo: string;
+  propiedadSlug: string;
+  operacion: string;
+  barrio: string;
+  ciudad: string;
+  mensajeInicial?: string;
+}
+
+const { propiedadTitulo, propiedadSlug, operacion, barrio, ciudad, mensajeInicial } = Astro.props;
+
+const defaultMsg =
+  mensajeInicial ??
+  `Hola, me interesa ${propiedadTitulo} en ${barrio}, ${ciudad}. Quiero coordinar una visita.`;
+---
+<form
+  id="property-lead-form"
+  method="POST"
+  action="/api/lead"
+  class="bezel reveal"
+  novalidate
+>
+  <div class="bezel__core p-6 sm:p-8">
+    <header class="mb-6">
+      <p class="text-eyebrow text-ink-500">Consulta por esta propiedad</p>
+      <h3 class="mt-3 text-display-3 text-cumbre-ink">Escribinos y te respondemos en menos de 36 h.</h3>
+    </header>
+
+    <!-- Honeypot -->
+    <div class="absolute -left-[10000px] top-auto w-px h-px overflow-hidden" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <input type="hidden" name="propiedadSlug" value={propiedadSlug} />
+    <input type="hidden" name="operacion" value={operacion} />
+    <input type="hidden" name="zona" value={`${barrio}, ${ciudad}`} />
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div class="field" data-field="nombre">
+        <label class="field__label" for="pi-nombre">Nombre</label>
+        <input class="field__input" type="text" id="pi-nombre" name="nombre" required minlength="2" maxlength="80" placeholder="Tu nombre" />
+        <p class="field__hint" data-hint>Ingresa tu nombre completo.</p>
+      </div>
+      <div class="field" data-field="email">
+        <label class="field__label" for="pi-email">Email</label>
+        <input class="field__input" type="email" id="pi-email" name="email" required autocomplete="email" placeholder="tu@correo.com" />
+        <p class="field__hint" data-hint>Te respondemos a este correo.</p>
+      </div>
+      <div class="field" data-field="telefono">
+        <label class="field__label" for="pi-telefono">Tel&eacute;fono</label>
+        <input class="field__input" type="tel" id="pi-telefono" name="telefono" required autocomplete="tel" inputmode="tel" placeholder="+54 11 5555 5555" />
+        <p class="field__hint" data-hint>Con c&oacute;digo de &aacute;rea.</p>
+      </div>
+      <div class="field" data-field="tipoPropiedad">
+        <label class="field__label" for="pi-tipo">Tipo</label>
+        <select class="field__select" id="pi-tipo" name="tipoPropiedad" required>
+          <option value="">Eleg&iacute;</option>
+          <option value="casa">Casa</option>
+          <option value="departamento">Departamento</option>
+          <option value="ph">PH</option>
+          <option value="local">Local</option>
+        </select>
+        <p class="field__hint" data-hint>Qu&eacute; te interesa.</p>
+      </div>
+      <div class="field sm:col-span-2" data-field="mensaje">
+        <label class="field__label" for="pi-mensaje">Mensaje</label>
+        <textarea
+          class="field__textarea"
+          id="pi-mensaje"
+          name="mensaje"
+          rows="4"
+          maxlength="1000"
+          placeholder={defaultMsg}
+        >{defaultMsg}</textarea>
+        <p class="field__hint" data-hint>Contanos cu&aacute;ndo podr&iacute;as visitarla.</p>
+      </div>
+    </div>
+
+    <div id="pi-form-status" class="mt-5 hidden" role="status" aria-live="polite"></div>
+
+    <div class="mt-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <p class="text-xs text-ink-500 max-w-[42ch]">
+        Al enviar aceptas recibir contacto comercial de Inmobiliaria Cumbre.
+      </p>
+      <button id="pi-submit" type="submit" class="btn-pill btn-primary self-start sm:self-auto">
+        <span data-label>Enviar consulta</span>
+        <span class="btn-pill__icon" data-icon>
+          <Icon name="arrow-up-right" size={15} />
+        </span>
+      </button>
+    </div>
+  </div>
+</form>
+
+<script>
+  type ApiResponse =
+    | { ok: true; id: string }
+    | { ok: false; errors?: { field: string; message: string }[]; message?: string };
+
+  const form = document.getElementById('property-lead-form') as HTMLFormElement | null;
+  const submit = document.getElementById('pi-submit') as HTMLButtonElement | null;
+  const status = document.getElementById('pi-form-status');
+
+  if (form && submit && status) {
+    const setStatus = (kind: 'ok' | 'error' | 'info', text: string) => {
+      status.classList.remove('hidden', 'bg-accent-50', 'text-accent-700', 'bg-[#FBE9EB]', 'text-[#7A1F2B]', 'bg-bone-100', 'text-ink-700');
+      status.classList.add(
+        kind === 'ok' ? 'bg-accent-50 text-accent-700'
+          : kind === 'error' ? 'bg-[#FBE9EB] text-[#7A1F2B]'
+          : 'bg-bone-100 text-ink-700',
+      );
+      status.classList.add('rounded-2xl', 'px-4', 'py-3', 'text-sm');
+      status.textContent = text;
+    };
+
+    const clearFieldErrors = () => {
+      form.querySelectorAll('[data-field].field--error').forEach((el) => el.classList.remove('field--error'));
+    };
+
+    const setFieldError = (field: string, message: string) => {
+      const wrap = form.querySelector(`[data-field="${field}"]`);
+      if (wrap) {
+        wrap.classList.add('field--error');
+        const hint = wrap.querySelector('[data-hint]');
+        if (hint) hint.textContent = message;
+      }
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearFieldErrors();
+      status.classList.add('hidden');
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      submit.disabled = true;
+      const label = submit.querySelector('[data-label]') as HTMLElement | null;
+      const originalLabel = label?.textContent ?? '';
+      if (label) label.textContent = 'Enviando...';
+
+      try {
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = (await res.json()) as ApiResponse;
+
+        if (res.ok && json.ok) {
+          const url = new URL('/gracias', window.location.origin);
+          if ('id' in json && json.id) url.searchParams.set('id', json.id);
+          window.location.href = url.toString();
+          return;
+        }
+        if (!json.ok && json.errors && Array.isArray(json.errors)) {
+          for (const e of json.errors) setFieldError(e.field, e.message);
+          setStatus('error', json.message ?? 'Revis\u00E1 los campos marcados.');
+        } else {
+          setStatus('error', 'No pudimos enviar tu consulta. Intent\u00E1 de nuevo en unos minutos.');
+        }
+      } catch {
+        setStatus('error', 'Error de conexi\u00F3n. Verific\u00E1 tu red e intent\u00E1 de nuevo.');
+      } finally {
+        submit.disabled = false;
+        if (label) label.textContent = originalLabel;
+      }
+    });
+  }
+</script>

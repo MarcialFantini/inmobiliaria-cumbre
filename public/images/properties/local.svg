@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="cielo10" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EFE7D2"/>
+      <stop offset="100%" stop-color="#D9C99A"/>
+    </linearGradient>
+  </defs>
+  <!-- Cielo y fachada urbana -->
+  <rect width="800" height="600" fill="url(#cielo10)"/>
+  <!-- Vereda -->
+  <rect y="500" width="800" height="100" fill="#CFC4AB"/>
+  <!-- Edificios vecinos (contexto urbano) -->
+  <g fill="#A88A4E" opacity="0.4">
+    <rect x="0" y="220" width="160" height="280"/>
+    <rect x="640" y="180" width="160" height="320"/>
+  </g>
+  <!-- Ventanas vecinos -->
+  <g fill="#1F4D3A" opacity="0.35">
+    <rect x="20" y="250" width="20" height="30"/>
+    <rect x="60" y="250" width="20" height="30"/>
+    <rect x="100" y="250" width="20" height="30"/>
+    <rect x="20" y="310" width="20" height="30"/>
+    <rect x="60" y="310" width="20" height="30"/>
+    <rect x="100" y="310" width="20" height="30"/>
+    <rect x="660" y="210" width="20" height="30"/>
+    <rect x="700" y="210" width="20" height="30"/>
+    <rect x="740" y="210" width="20" height="30"/>
+    <rect x="660" y="280" width="20" height="30"/>
+    <rect x="700" y="280" width="20" height="30"/>
+    <rect x="740" y="280" width="20" height="30"/>
+  </g>
+  <!-- Local comercial al frente -->
+  <rect x="200" y="180" width="400" height="320" fill="#F5F1E8"/>
+  <!-- Borde superior con marquesina -->
+  <rect x="190" y="180" width="420" height="40" fill="#1A1A1A"/>
+  <!-- Vidriera -->
+  <rect x="220" y="240" width="360" height="200" fill="#1F4D3A" opacity="0.45"/>
+  <rect x="220" y="240" width="360" height="200" fill="none" stroke="#1A1A1A" stroke-width="2"/>
+  <!-- Marco divisor vidriera -->
+  <g stroke="#1A1A1A" stroke-width="2">
+    <line x1="400" y1="240" x2="400" y2="440"/>
+  </g>
+  <!-- Maniquies / display abstracto -->
+  <g fill="#A88A4E" opacity="0.55">
+    <ellipse cx="270" cy="370" rx="20" ry="40"/>
+    <rect x="265" y="380" width="10" height="60"/>
+    <ellipse cx="530" cy="370" rx="20" ry="40"/>
+    <rect x="525" y="380" width="10" height="60"/>
+  </g>
+  <!-- Letrero luminoso -->
+  <rect x="220" y="230" width="150" height="22" fill="#F5F1E8"/>
+  <text x="295" y="247" font-family="monospace" font-size="12" fill="#1A1A1A" text-anchor="middle" letter-spacing="2">FLAGSHIP STORE</text>
+  <!-- Puerta lateral -->
+  <rect x="520" y="240" width="60" height="200" fill="#1A1A1A"/>
+  <!-- Piso vereda -->
+  <g stroke="#1A1A1A" stroke-width="0.5" opacity="0.3">
+    <line x1="0" y1="540" x2="800" y2="540"/>
+    <line x1="0" y1="580" x2="800" y2="580"/>
+  </g>
+  <!-- Postes de luz -->
+  <g stroke="#1A1A1A" stroke-width="2">
+    <line x1="170" y1="450" x2="170" y2="500"/>
+    <line x1="630" y1="450" x2="630" y2="500"/>
+  </g>
+  <circle cx="170" cy="445" r="6" fill="#A88A4E"/>
+  <circle cx="630" cy="445" r="6" fill="#A88A4E"/>
+</svg>

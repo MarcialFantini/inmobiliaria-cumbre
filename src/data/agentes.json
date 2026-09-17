@@ -1,0 +1,34 @@
+{
+  "agentes": [
+    {
+      "id": "lucrecia-maidana",
+      "nombre": "Lucrecia Maidana",
+      "rol": "Fundadora & Martillera",
+      "matricula": "CMCPSI 6000",
+      "telefono": "+54 9 11 4000-0001",
+      "email": "lucrecia@inmobiliaria-cumbre.com.ar",
+      "iniciales": "LM",
+      "bio": "Fundó Inmobiliaria Cumbre en 2014 después de quince años en el mercado de zona norte. Atiende personalmente las operaciones premium y la relación con clientes recurrentes."
+    },
+    {
+      "id": "tomas-berardi",
+      "nombre": "Tomás Berardi",
+      "rol": "Asesor Senior",
+      "matricula": "CMCPSI 6188",
+      "telefono": "+54 9 11 4000-0002",
+      "email": "tomas@inmobiliaria-cumbre.com.ar",
+      "iniciales": "TB",
+      "bio": "Especializado en casas en countries y barrios cerrados de Pilar y Tigre. Ocho años acompañando familias en la búsqueda de su primera propiedad."
+    },
+    {
+      "id": "ines-coppola",
+      "nombre": "Inés Coppola",
+      "rol": "Asesora Residencial",
+      "matricula": "CMCPSI 6241",
+      "telefono": "+54 9 11 4000-0003",
+      "email": "ines@inmobiliaria-cumbre.com.ar",
+      "iniciales": "IC",
+      "bio": "Maneja el segmento de departamentos y PH en Vicente López y San Isidro. Viene del mundo editorial y se nota en cómo describe cada propiedad."
+    }
+  ]
+}

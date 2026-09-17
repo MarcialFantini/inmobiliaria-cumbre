@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="cielo6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E5DCC9"/>
+      <stop offset="100%" stop-color="#C8B89A"/>
+    </linearGradient>
+    <linearGradient id="lago6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1F4D3A"/>
+      <stop offset="100%" stop-color="#08281A"/>
+    </linearGradient>
+  </defs>
+  <!-- Cielo atardecer -->
+  <rect width="800" height="320" fill="url(#cielo6)"/>
+  <!-- Lago -->
+  <rect y="380" width="800" height="220" fill="url(#lago6)"/>
+  <!-- Linea de costa lejana -->
+  <path d="M0,380 Q200,360 400,375 T800,365 L800,380 Z" fill="#143A2A"/>
+  <!-- Casa racionalista al borde del lago -->
+  <rect x="260" y="190" width="380" height="190" fill="#F5F1E8"/>
+  <!-- Lineas de fachada -->
+  <g stroke="#1A1A1A" stroke-width="2" fill="none">
+    <line x1="260" y1="190" x2="640" y2="190"/>
+    <line x1="260" y1="280" x2="640" y2="280"/>
+    <line x1="450" y1="190" x2="450" y2="380"/>
+  </g>
+  <!-- Ventanales -->
+  <g fill="#1F4D3A" opacity="0.7">
+    <rect x="280" y="210" width="70" height="60"/>
+    <rect x="360" y="210" width="70" height="60"/>
+    <rect x="475" y="210" width="70" height="60"/>
+    <rect x="555" y="210" width="70" height="60"/>
+  </g>
+  <!-- Ventanal planta baja -->
+  <rect x="280" y="295" width="345" height="85" fill="#1F4D3A" opacity="0.65"/>
+  <!-- Pileta lateral -->
+  <rect x="660" y="320" width="80" height="50" fill="#5FA982" opacity="0.7"/>
+  <!-- Muelle sobre el lago -->
+  <rect x="380" y="378" width="120" height="6" fill="#1A1A1A"/>
+  <!-- Reflejos en el agua -->
+  <g opacity="0.25" transform="translate(0,380) scale(1,-0.5)">
+    <rect x="260" y="190" width="380" height="190" fill="#F5F1E8"/>
+  </g>
+  <!-- Vegetacion -->
+  <circle cx="220" cy="375" r="22" fill="#3F5A38"/>
+  <circle cx="700" cy="375" r="18" fill="#3F5A38"/>
+  <circle cx="120" cy="370" r="14" fill="#5FA982"/>
+  <!-- Sol bajo -->
+  <circle cx="640" cy="330" r="30" fill="#A88A4E" opacity="0.45"/>
+</svg>

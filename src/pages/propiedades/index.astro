@@ -1,0 +1,80 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Icon from '@/components/Icon.astro';
+import PropertyCatalog from '@/components/PropertyCatalog';
+import {
+  getPropiedades,
+  getBarrios,
+  getCiudades,
+  filtrosFromSearchParams,
+} from '@/lib/catalogo';
+
+export const prerender = false;
+
+const propiedades = getPropiedades();
+const barrios = getBarrios();
+const ciudades = getCiudades();
+const filtrosIniciales = filtrosFromSearchParams(Astro.url.searchParams);
+---
+<BaseLayout
+  title="Catálogo de propiedades - Inmobiliaria Cumbre"
+  description="Casas, departamentos, PH y locales en venta y alquiler en Vicente López, San Isidro, Tigre, Pilar y San Fernando. Filtrá por zona, precio, m², dormitorios y cocheras."
+  canonical={new URL('/propiedades', Astro.site).toString()}
+>
+  <Header />
+
+  <main id="main">
+    <!-- Hero editorial -->
+    <section class="relative overflow-hidden">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-14 md:pt-20 pb-10 md:pb-14">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-end">
+          <div class="md:col-span-7">
+            <p class="text-eyebrow text-ink-500 reveal">
+              <span class="inline-flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-cumbre-forest" aria-hidden="true"></span>
+                Catálogo activo
+              </span>
+            </p>
+            <h1 class="mt-5 text-display-1 text-cumbre-ink reveal reveal-delay-1">
+              {propiedades.length} propiedades en zona norte.
+            </h1>
+            <p class="mt-6 max-w-[40ch] text-lg text-ink-700 leading-relaxed reveal reveal-delay-2">
+              Filtrá por zona, precio, metros cuadrados o tipo. La URL refleja lo que buscas para que puedas compartirla.
+            </p>
+          </div>
+          <div class="md:col-span-5 reveal reveal-delay-3">
+            <div class="flex flex-wrap gap-3">
+              <a href="/propiedades/mapa" class="btn-pill btn-ghost">
+                <span>Ver en mapa</span>
+                <span class="btn-pill__icon"><Icon name="arrow-up-right" size={15} /></span>
+              </a>
+              <a href="/favoritos" class="btn-pill btn-primary">
+                <span>Mis favoritos</span>
+                <span class="btn-pill__icon"><Icon name="arrow-right" size={15} /></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div class="gold-rule" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="relative">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-12 md:py-16">
+        <PropertyCatalog
+          client:load
+          propiedades={propiedades}
+          barrios={barrios}
+          ciudades={ciudades}
+          filtrosIniciales={filtrosIniciales}
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

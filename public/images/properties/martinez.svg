@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="cielo9" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4EAD0"/>
+      <stop offset="100%" stop-color="#E1D9C5"/>
+    </linearGradient>
+  </defs>
+  <!-- Cielo de tarde -->
+  <rect width="800" height="600" fill="url(#cielo9)"/>
+  <!-- Calle lateral -->
+  <rect y="450" width="800" height="150" fill="#A88A4E" opacity="0.25"/>
+  <!-- Vereda -->
+  <rect y="430" width="800" height="20" fill="#CFC4AB"/>
+  <!-- PH al frente -->
+  <rect x="180" y="220" width="440" height="210" fill="#C78060"/>
+  <!-- Ladrillo visto (textura) -->
+  <g stroke="#8B4F38" stroke-width="1" opacity="0.7">
+    <line x1="180" y1="240" x2="620" y2="240"/>
+    <line x1="180" y1="260" x2="620" y2="260"/>
+    <line x1="180" y1="280" x2="620" y2="280"/>
+    <line x1="180" y1="300" x2="620" y2="300"/>
+    <line x1="180" y1="320" x2="620" y2="320"/>
+    <line x1="180" y1="340" x2="620" y2="340"/>
+    <line x1="180" y1="360" x2="620" y2="360"/>
+    <line x1="180" y1="380" x2="620" y2="380"/>
+    <line x1="180" y1="400" x2="620" y2="400"/>
+    <!-- Verticales irregulares -->
+    <line x1="220" y1="220" x2="220" y2="240"/>
+    <line x1="280" y1="240" x2="280" y2="260"/>
+    <line x1="360" y1="220" x2="360" y2="240"/>
+    <line x1="440" y1="240" x2="440" y2="260"/>
+    <line x1="520" y1="220" x2="520" y2="240"/>
+    <line x1="580" y1="240" x2="580" y2="260"/>
+    <line x1="200" y1="280" x2="200" y2="300"/>
+    <line x1="320" y1="300" x2="320" y2="320"/>
+    <line x1="400" y1="280" x2="400" y2="300"/>
+    <line x1="500" y1="320" x2="500" y2="340"/>
+  </g>
+  <!-- Puerta -->
+  <rect x="370" y="320" width="60" height="110" fill="#1A1A1A"/>
+  <!-- Ventanas -->
+  <g fill="#1F4D3A" opacity="0.5">
+    <rect x="210" y="260" width="50" height="80"/>
+    <rect x="540" y="260" width="50" height="80"/>
+  </g>
+  <g stroke="#F5F1E8" stroke-width="1.5">
+    <line x1="235" y1="260" x2="235" y2="340"/>
+    <line x1="210" y1="300" x2="260" y2="300"/>
+    <line x1="565" y1="260" x2="565" y2="340"/>
+    <line x1="540" y1="300" x2="590" y2="300"/>
+  </g>
+  <!-- Techo -->
+  <rect x="170" y="200" width="460" height="25" fill="#5C3A28"/>
+  <!-- Jardin al frente -->
+  <rect x="100" y="430" width="80" height="60" fill="#5FA982" opacity="0.7"/>
+  <!-- Reja -->
+  <g stroke="#1A1A1A" stroke-width="2" fill="none">
+    <line x1="100" y1="490" x2="700" y2="490"/>
+    <line x1="120" y1="430" x2="120" y2="490"/>
+    <line x1="160" y1="430" x2="160" y2="490"/>
+    <line x1="180" y1="430" x2="180" y2="430"/>
+  </g>
+  <!-- Arbustos -->
+  <circle cx="130" cy="420" r="22" fill="#3F5A38"/>
+  <circle cx="660" cy="425" r="20" fill="#3F5A38"/>
+  <!-- Sombras -->
+  <rect x="180" y="430" width="440" height="3" fill="#1A1A1A" opacity="0.3"/>
+</svg>

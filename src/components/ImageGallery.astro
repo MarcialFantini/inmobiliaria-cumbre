@@ -1,0 +1,68 @@
+---
+interface Props {
+  imagenes: string[];
+  titulo: string;
+}
+
+const { imagenes, titulo } = Astro.props;
+// Solo mostramos hasta 5 imagenes en el grid; el resto en un boton "Ver mas".
+const visibles = imagenes.slice(0, 5);
+const restantes = Math.max(0, imagenes.length - 5);
+---
+<!--
+  Galeria asimetrica "doble-bezel" - 1 imagen grande a la izquierda,
+  4 mas pequenas a la derecha (2x2). Si hay mas imagenes, un "+N" en la
+  ultima. Si solo hay 1 imagen, ocupa todo el ancho.
+-->
+<section aria-label="Galeria de imagenes" class="reveal">
+  {visibles.length === 1 ? (
+    <figure
+      class="relative aspect-[16/10] overflow-hidden rounded-[1.25rem]"
+      style="box-shadow: 0 0 0 1px rgba(168,138,78,0.55), 0 0 0 4px var(--color-bone), 0 16px 40px -16px rgba(26,26,26,0.35);"
+    >
+      <img
+        src={visibles[0]}
+        alt={`Imagen de ${titulo}`}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+    </figure>
+  ) : (
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+      <figure
+        class="relative aspect-[4/3] md:aspect-auto md:row-span-2 overflow-hidden rounded-[1.25rem]"
+        style="box-shadow: 0 0 0 1px rgba(168,138,78,0.55), 0 0 0 4px var(--color-bone), 0 16px 40px -16px rgba(26,26,26,0.35);"
+      >
+        <img
+          src={visibles[0]}
+          alt={`Imagen principal de ${titulo}`}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+      </figure>
+      {visibles.slice(1, 5).map((src, i) => (
+        <figure
+          class="relative aspect-[4/3] overflow-hidden rounded-[1.25rem]"
+          style="box-shadow: 0 0 0 1px rgba(168,138,78,0.55), 0 0 0 4px var(--color-bone), 0 12px 28px -16px rgba(26,26,26,0.3);"
+        >
+          <img
+            src={src}
+            alt={`Imagen ${i + 2} de ${titulo}`}
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          {i === 3 && restantes > 0 && (
+            <figcaption class="absolute inset-0 grid place-items-center bg-cumbre-ink/55 backdrop-blur-sm text-cumbre-bone text-2xl font-semibold tabular-nums">
+              +{restantes}
+            </figcaption>
+          )}
+        </figure>
+      ))}
+    </div>
+  )}
+</section>

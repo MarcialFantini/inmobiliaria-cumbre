@@ -1,0 +1,91 @@
+---
+import Icon from './Icon.astro';
+import type { Propiedad, Agente } from '@/types/catalogo';
+import { formatPrecio } from '@/lib/format';
+
+interface Props {
+  propiedad: Propiedad;
+  agente: Agente | null;
+}
+
+const { propiedad, agente } = Astro.props;
+
+const whatsappMsg = encodeURIComponent(
+  `Hola, me interesa "${propiedad.titulo}" (${propiedad.barrio}, ${propiedad.ciudad}). Vi la publicacion en la web y quisiera coordinar una visita.`,
+);
+const whatsappHref = `https://wa.me/${(agente?.telefono ?? '+5491140000000').replace(/[^+\d]/g, '')}?text=${whatsappMsg}`;
+---
+<aside class="bezel">
+  <div class="bezel__core p-6 sm:p-7">
+    <header>
+      <p class="text-eyebrow text-ink-500">Precio</p>
+      <p class="mt-3 text-display-2 text-cumbre-ink tabular-nums">
+        {formatPrecio({ operacion: propiedad.operacion, precioUSD: propiedad.precioUSD, alquilerUSD: propiedad.alquilerUSD })}
+      </p>
+      <p class="mt-2 text-xs text-ink-500">
+        Publicada el {new Date(propiedad.publicada).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })}.
+      </p>
+    </header>
+
+    <!-- Agente -->
+    {agente && (
+      <div class="mt-7 pt-6 border-t border-ink-100">
+        <p class="text-eyebrow text-ink-500">Asesor responsable</p>
+        <div class="mt-4 flex items-start gap-4">
+          <span class="grid place-items-center w-12 h-12 rounded-full bg-cumbre-ink text-cumbre-bone font-semibold tracking-tight flex-shrink-0">
+            <span class="text-[14px]">{agente.iniciales}</span>
+          </span>
+          <div class="flex-1 min-w-0">
+            <p class="text-base font-semibold text-ink-900 leading-tight">{agente.nombre}</p>
+            <p class="text-xs text-ink-500 mt-1">{agente.rol}</p>
+            {agente.matricula && (
+              <p class="text-[11px] font-mono uppercase tracking-[0.16em] text-ink-300 mt-1">
+                {agente.matricula}
+              </p>
+            )}
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-ink-700 leading-relaxed">{agente.bio}</p>
+
+        <div class="mt-5 grid grid-cols-1 gap-2.5">
+          <a
+            href={whatsappHref}
+            class="inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-cumbre-forest text-cumbre-bone text-sm hover:bg-cumbre-accent-700 transition-colors"
+            aria-label={`Consultar a ${agente.nombre} por WhatsApp`}
+          >
+            <span class="inline-flex items-center gap-2">
+              <Icon name="whatsapp" size={16} />
+              Consultar por WhatsApp
+            </span>
+            <Icon name="arrow-up-right" size={14} />
+          </a>
+          <a
+            href={`tel:${agente.telefono.replace(/[^+\d]/g, '')}`}
+            class="inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-bone-100 text-ink-900 hover:bg-bone-200 transition-colors text-sm"
+            aria-label={`Llamar a ${agente.nombre}`}
+          >
+            <span class="inline-flex items-center gap-2">
+              <Icon name="phone" size={15} />
+              {agente.telefono}
+            </span>
+            <Icon name="arrow-up-right" size={14} />
+          </a>
+        </div>
+      </div>
+    )}
+
+    <!-- CTA secundario: visita -->
+    <div class="mt-7 pt-6 border-t border-ink-100">
+      <p class="text-eyebrow text-ink-500">Agendar visita</p>
+      <p class="mt-3 text-sm text-ink-700 leading-relaxed">
+        Coordinamos la visita en el horario que te sirva. Te acompa&ntilde;amos nosotros.
+      </p>
+      <a
+        href="#contacto"
+        class="mt-4 inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-full bg-cumbre-ink text-cumbre-bone text-sm hover:bg-cumbre-ink-700 transition-colors"
+      >
+        Solicitar una visita
+      </a>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,151 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Icon from '@/components/Icon.astro';
+import MortgageCalculator from '@/components/MortgageCalculator';
+
+export const prerender = false;
+---
+<BaseLayout
+  title="Calculadora de hipoteca - Inmobiliaria Cumbre"
+  description="Calculá la cuota mensual de tu hipoteca en dólares. Sistema francés, plazos de 10 a 30 años. Cálculo referencial para propiedades en zona norte GBA."
+  canonical={new URL('/hipoteca', Astro.site).toString()}
+>
+  <Header />
+
+  <main id="main">
+    <!-- Hero editorial -->
+    <section class="relative overflow-hidden">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-14 md:pt-20 pb-10 md:pb-14">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-end">
+          <div class="md:col-span-8">
+            <p class="text-eyebrow text-ink-500 reveal">
+              <span class="inline-flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-cumbre-forest" aria-hidden="true"></span>
+                Calculadora financiera
+              </span>
+            </p>
+            <h1 class="mt-5 text-display-1 text-cumbre-ink reveal reveal-delay-1">
+              Compr&aacute; tu primera propiedad con n&uacute;meros claros.
+            </h1>
+            <p class="mt-6 max-w-[58ch] text-lg text-ink-700 leading-relaxed reveal reveal-delay-2">
+              Antes de firmar un boleto, calcul&aacute; tu cuota mensual con el sistema franc&eacute;s
+              (cuota fija). Ajust&aacute; precio, plazo y tasa para tener una referencia real
+              de lo que vas a pagar cada mes durante la vida del pr&eacute;stamo.
+            </p>
+          </div>
+          <div class="md:col-span-4 reveal reveal-delay-3">
+            <div class="bezel">
+              <div class="bezel__core p-5 sm:p-6">
+                <p class="text-eyebrow text-ink-500">Record&aacute;</p>
+                <p class="mt-3 text-base text-ink-900 leading-relaxed">
+                  Esto es un <strong>c&aacute;lculo referencial</strong>. La cuota real depende del
+                  banco, tu historial crediticio y las condiciones del solicitante.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div class="gold-rule" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- Calculadora -->
+    <section class="relative">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-12 md:py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          <div class="lg:col-span-8 reveal">
+            <MortgageCalculator client:load defaultPrecio={350000} />
+          </div>
+
+          <aside class="lg:col-span-4 lg:sticky lg:top-28 self-start space-y-6 reveal reveal-delay-1">
+            <div class="bezel">
+              <div class="bezel__core p-6">
+                <p class="text-eyebrow text-ink-500">C&oacute;mo funciona</p>
+                <h2 class="mt-3 text-display-3 text-ink-900">Sistema franc&eacute;s.</h2>
+                <p class="mt-4 text-sm text-ink-700 leading-relaxed">
+                  Es el m&eacute;todo que usan la mayor&iacute;a de los bancos: la cuota mensual se mantiene
+                  fija durante todo el plazo. Al inicio pag&aacute;s m&aacute;s intereses y menos capital;
+                  con el tiempo la proporci&oacute;n se invierte.
+                </p>
+              </div>
+            </div>
+
+            <div class="bezel">
+              <div class="bezel__core p-6">
+                <p class="text-eyebrow text-ink-500">F&oacute;rmula</p>
+                <p class="mt-4 font-mono text-sm text-ink-900 leading-relaxed">
+                  cuota = P &times; (i &times; (1+i)<sup>n</sup>) / ((1+i)<sup>n</sup> &minus; 1)
+                </p>
+                <ul class="mt-5 space-y-2 text-sm text-ink-700">
+                  <li><span class="font-mono text-ink-900">P</span> &middot; monto del pr&eacute;stamo (USD)</li>
+                  <li><span class="font-mono text-ink-900">i</span> &middot; tasa mensual (anual &divide; 12)</li>
+                  <li><span class="font-mono text-ink-900">n</span> &middot; n&uacute;mero de cuotas (plazo &times; 12)</li>
+                </ul>
+              </div>
+            </div>
+
+            <a href="/propiedades" class="btn-pill btn-forest w-full justify-center">
+              <span>Ver propiedades disponibles</span>
+              <span class="btn-pill__icon"><Icon name="arrow-right" size={15} /></span>
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notas / contexto -->
+    <section class="relative">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pb-20 md:pb-28">
+        <div class="gold-rule mb-12" aria-hidden="true"></div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+          <article class="reveal">
+            <p class="text-eyebrow text-ink-500">01 &middot; Antes de calcular</p>
+            <h3 class="mt-3 text-xl font-semibold text-ink-900">Tu capacidad de pago real.</h3>
+            <p class="mt-3 text-sm text-ink-700 leading-relaxed">
+              Los bancos suelen financiar hasta el 80% del valor de la propiedad y exigen que la cuota
+              no supere el 25-30% de tus ingresos mensuales netos. Calcul&aacute; primero cu&aacute;nto
+              pod&eacute;s pagar antes de elegir el inmueble.
+            </p>
+          </article>
+          <article class="reveal reveal-delay-1">
+            <p class="text-eyebrow text-ink-500">02 &middot; Documentaci&oacute;n</p>
+            <h3 class="mt-3 text-xl font-semibold text-ink-900">Lo que te van a pedir.</h3>
+            <p class="mt-3 text-sm text-ink-700 leading-relaxed">
+              &Uacute;ltimos tres recibos de sueldo, constancia de CUIT/CUIL, declaraciones de Ganancias
+              si sos aut&oacute;nomo, y un informe crediticio sin atrasos significativos. Trabajamos
+              con cinco bancos l&iacute;deres y te acompa&ntilde;amos en el tr&aacute;mite.
+            </p>
+          </article>
+          <article class="reveal reveal-delay-2">
+            <p class="text-eyebrow text-ink-500">03 &middot; Acompa&ntilde;amiento</p>
+            <h3 class="mt-3 text-xl font-semibold text-ink-900">Sin letra chica.</h3>
+            <p class="mt-3 text-sm text-ink-700 leading-relaxed">
+              Te explicamos las diferencias entre UVA, tasa fija y tasa variable. Si la propiedad no
+              califica para cr&eacute;dito, te avisamos antes de avanzar para que no pierdas tiempo
+              ni se&ntilde;al.
+            </p>
+          </article>
+        </div>
+
+        <!-- Disclaimer final -->
+        <div class="mt-16 reveal reveal-delay-3">
+          <div class="rounded-2xl bg-bone-100 border border-ink-100 p-5 sm:p-6">
+            <p class="text-xs text-ink-500 leading-relaxed max-w-[80ch]">
+              <strong class="text-ink-900">Aviso:</strong> C&aacute;lculo referencial sujeto a condiciones
+              del banco. La cuota real puede variar seg&uacute;n el sistema de amortizaci&oacute;n, el
+              destino del pr&eacute;stamo, la relaci&oacute;n cuota-ingreso y la calificaci&oacute;n
+              crediticia del solicitante. No incluye seguros obligatorios, gastos de escrituraci&oacute;n
+              ni impuestos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

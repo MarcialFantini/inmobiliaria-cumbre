@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="cielo8" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0E8E0"/>
+      <stop offset="100%" stop-color="#B5C7B0"/>
+    </linearGradient>
+  </defs>
+  <!-- Cielo -->
+  <rect width="800" height="600" fill="url(#cielo8)"/>
+  <!-- Campo al fondo: lineas suaves -->
+  <path d="M0,350 Q200,330 400,340 T800,335 L800,400 L0,400 Z" fill="#5FA982" opacity="0.6"/>
+  <!-- Montana lejana -->
+  <path d="M0,360 L100,300 L200,340 L350,290 L500,335 L650,295 L800,340 L800,400 L0,400 Z" fill="#3F5A38" opacity="0.5"/>
+  <!-- Cesped -->
+  <rect y="400" width="800" height="200" fill="#5FA982"/>
+  <!-- Casa quinta -->
+  <rect x="240" y="280" width="320" height="120" fill="#1A1A1A"/>
+  <!-- Techo a dos aguas -->
+  <polygon points="240,280 400,200 560,280" fill="#0F0E0D"/>
+  <!-- Ventanas luminosas -->
+  <g fill="#F5F1E8" opacity="0.9">
+    <rect x="270" y="305" width="40" height="40"/>
+    <rect x="320" y="305" width="40" height="40"/>
+    <rect x="440" y="305" width="40" height="40"/>
+    <rect x="490" y="305" width="40" height="40"/>
+  </g>
+  <g fill="#F5F1E8" opacity="0.7">
+    <rect x="270" y="355" width="30" height="30"/>
+    <rect x="500" y="355" width="30" height="30"/>
+  </g>
+  <!-- Puerta principal -->
+  <rect x="385" y="345" width="30" height="55" fill="#A88A4E"/>
+  <!-- Galeria con columnas -->
+  <g stroke="#1A1A1A" stroke-width="2">
+    <line x1="240" y1="400" x2="560" y2="400"/>
+  </g>
+  <g fill="#1A1A1A">
+    <rect x="260" y="380" width="6" height="20"/>
+    <rect x="320" y="380" width="6" height="20"/>
+    <rect x="380" y="380" width="6" height="20"/>
+    <rect x="440" y="380" width="6" height="20"/>
+    <rect x="500" y="380" width="6" height="20"/>
+  </g>
+  <!-- Pileta lateral -->
+  <ellipse cx="640" cy="450" rx="60" ry="22" fill="#1F4D3A" opacity="0.8"/>
+  <ellipse cx="640" cy="450" rx="55" ry="18" fill="#5FA982" opacity="0.5"/>
+  <!-- Arboles alrededor -->
+  <g fill="#143A2A">
+    <ellipse cx="180" cy="430" rx="50" ry="60"/>
+    <ellipse cx="700" cy="430" rx="55" ry="65"/>
+  </g>
+  <g fill="#5FA982">
+    <ellipse cx="180" cy="400" rx="40" ry="40"/>
+    <ellipse cx="700" cy="400" rx="45" ry="45"/>
+  </g>
+  <!-- Camino de acceso -->
+  <path d="M380,580 Q420,500 400,400" stroke="#A88A4E" stroke-width="14" fill="none" opacity="0.6"/>
+</svg>
