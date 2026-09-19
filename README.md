@@ -37,33 +37,68 @@ El visitante envía una sola consulta y un asesor real la recibe de punta a punt
 ├── public/
 │   ├── favicon.svg
 │   ├── og-image.svg
+│   ├── robots.txt
 │   └── images/
 │       ├── hero/property-hero.svg
-│       └── properties/{bellavista,virasoro,manzanares,acacias,castores}.svg
+│       └── properties/{bellavista,virasoro,manzanares,acacias,castores,casa-lago,olmos,rincon}.svg
 ├── src/
 │   ├── components/
-│   │   ├── ContactForm.astro      # form con client-side fetch + validación accesible
-│   │   ├── FeaturedProperties.astro
-│   │   ├── Footer.astro
-│   │   ├── Header.astro
-│   │   ├── Hero.astro
-│   │   ├── Icon.astro             # set mínimo de iconos inline
-│   │   ├── Process.astro
-│   │   ├── PropertyCard.astro
-│   │   └── Stats.astro
-│   ├── data/properties.json       # propiedades y zonas (catálogo simulado)
-│   ├── layouts/BaseLayout.astro   # head, SEO, OG, JSON-LD, observer de reveal
+│   │   ├── Astro (estáticos):
+│   │   │   ├── Breadcrumbs.astro         # breadcrumb para /propiedades/[slug]
+│   │   │   ├── ContactForm.astro         # form del home (8 campos, honeypot, fetch a /api/lead)
+│   │   │   ├── FeaturedProperties.astro  # bento asimétrico de destacadas (3 cards)
+│   │   │   ├── Footer.astro
+│   │   │   ├── Header.astro
+│   │   │   ├── Hero.astro
+│   │   │   ├── Icon.astro                # set mínimo de iconos inline
+│   │   │   ├── ImageGallery.astro        # galería de /propiedades/[slug]
+│   │   │   ├── MiniMap.astro             # Leaflet estático (mini-mapa) en /propiedades/[slug]
+│   │   │   ├── Process.astro
+│   │   │   ├── PropertyCard.astro        # card del bento (schema Propiedad, con variant wide)
+│   │   │   ├── PropertyCardGrid.astro    # grilla editorial para /propiedades, /zonas, /buscar
+│   │   │   ├── PropertyInquiryForm.astro # form de consulta por una propiedad puntual
+│   │   │   ├── PropertySidebar.astro     # sidebar con agente + precio + acciones
+│   │   │   ├── Stats.astro
+│   │   │   └── TrustStrip.astro
+│   │   └── Preact (islands):
+│   │       ├── FavoriteButton.tsx        # client:load — toggle favorito en localStorage
+│   │       ├── FavoritesList.tsx         # client:load — listado y remoción en /favoritos
+│   │       ├── MortgageCalculator.tsx    # client:visible — sistema francés en /propiedades/[slug]
+│   │       ├── PropertyCatalog.tsx       # client:visible — catálogo con filtros + URL state
+│   │       └── PropertyMap.tsx           # client:only="preact" — Leaflet full en /propiedades/mapa
+│   ├── data/
+│   │   ├── propiedades.json              # 15 propiedades (single source of truth)
+│   │   ├── agentes.json                  # agentes responsables
+│   │   └── zonas.json                    # 15 zonas con slug, ciudad, intro, perfil, coords
+│   ├── layouts/BaseLayout.astro          # head, SEO, OG, JSON-LD, observer de reveal
+│   ├── lib/
+│   │   ├── catalogo.ts                   # queries: getPropiedades, getDestacadas, filtrar, etc.
+│   │   ├── favoritos.ts                  # localStorage helpers para favoritos
+│   │   ├── format.ts                     # formatUSD, formatM2, formatFecha, etc.
+│   │   └── mortgage.ts                   # fórmula francesa para MortgageCalculator
 │   ├── pages/
-│   │   ├── index.astro            # landing principal
-│   │   ├── gracias.astro          # confirmación (lee el lead por ID)
-│   │   └── api/lead.ts            # endpoint SSR (POST, valida, persiste, webhook)
-│   ├── styles/global.css          # tokens + componentes + reveal-on-scroll
-│   └── types/lead.ts              # tipos compartidos cliente/servidor
+│   │   ├── index.astro                   # landing principal
+│   │   ├── hipoteca.astro                # calculadora standalone con FAQ
+│   │   ├── favoritos.astro               # listado persistido en localStorage
+│   │   ├── gracias.astro                 # confirmación (lee el lead por ID)
+│   │   ├── propiedades/
+│   │   │   ├── index.astro               # catálogo completo con filtros (URL state)
+│   │   │   ├── mapa.astro                # mapa interactivo con todas las propiedades
+│   │   │   └── [slug].astro              # ficha de una propiedad
+│   │   ├── zonas/
+│   │   │   ├── index.astro               # índice de las 15 zonas
+│   │   │   └── [zona].astro              # ficha de zona con propiedades filtradas
+│   │   └── api/lead.ts                   # endpoint SSR (POST, valida, persiste, webhook)
+│   ├── styles/global.css                 # tokens + componentes + reveal-on-scroll
+│   └── types/
+│       ├── catalogo.ts                   # Propiedad, Agente, FiltrosCatalogo
+│       ├── lead.ts                       # LeadPayload, LeadRecord (API)
+│       └── zona.ts                       # Zona (de zonas.json)
 ├── data/
-│   └── leads.json                 # se crea al primer POST (gitignored)
-├── astro.config.mjs               # SSR + node adapter + tailwind vite plugin
-├── tsconfig.json                  # extends astro/tsconfigs/strict + alias @/*
-└── .env.example                   # variables documentadas
+│   └── leads.json                        # se crea al primer POST (gitignored)
+├── astro.config.mjs                      # SSR + node adapter + tailwind vite plugin
+├── tsconfig.json                         # extends astro/tsconfigs/strict + alias @/*
+└── .env.example                          # variables documentadas
 ```
 
 ## Cómo correrlo
@@ -230,11 +265,16 @@ function doPost(e) {
 
 ## Pendientes / Mejoras futuras
 
+- ~~JSON duplicado: `src/data/properties.json` (schema viejo) eliminado en favor de `propiedades.json` (15 items, schema rico).~~ ✅ Resuelto.
+- ~~Sitemap generado por `@astrojs/sitemap` + `robots.txt` en `public/`.~~ ✅ Resuelto.
+- ~~JSON-LD `RealEstateListing` por propiedad en `/propiedades/[slug]`.~~ ✅ Resuelto.
+- ~~Leaflet respeta `prefers-reduced-motion` en `PropertyMap.tsx`.~~ ✅ Resuelto.
 - Integracion real con Sheets / Zapier (solo documentado, no activado por defecto).
 - Email transacional de confirmacion al usuario (hoy solo se muestra la pantalla `/gracias`).
 - Rate limiting por IP en el endpoint (hoy solo hay honeypot basico).
 - Tests E2E con Playwright para el flujo completo.
 - CMS para que el equipo de Cumbre pueda editar propiedades sin tocar codigo.
+- Self-hostear `leaflet/dist/leaflet.css` en `public/` (hoy se carga por CDN en runtime).
 
 ## Licencia
 

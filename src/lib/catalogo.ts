@@ -5,6 +5,7 @@
 
 import propiedadesData from '@/data/propiedades.json';
 import agentesData from '@/data/agentes.json';
+import zonasData from '@/data/zonas.json';
 import type {
   Propiedad,
   Agente,
@@ -13,9 +14,11 @@ import type {
   TipoPropiedad,
   Operacion,
 } from '@/types/catalogo';
+import type { Zona } from '@/types/zona';
 
 const propiedades = propiedadesData.propiedades as Propiedad[];
 const agentes = agentesData.agentes as Agente[];
+const zonas = zonasData.zonas as Zona[];
 
 /** Todas las propiedades (referencia estable en runtime). */
 export function getPropiedades(): Propiedad[] {
@@ -37,9 +40,11 @@ export function getAgenteById(id: string): Agente | null {
   return agentes.find((a) => a.id === id) ?? null;
 }
 
-/** Lista de ciudades cubiertas. */
+/** Lista de ciudades cubiertas (derivada de propiedades). */
 export function getCiudades(): Ciudad[] {
-  return propiedadesData.ciudades as Ciudad[];
+  const set = new Set<Ciudad>();
+  for (const p of propiedades) set.add(p.ciudad as Ciudad);
+  return Array.from(set).sort();
 }
 
 /** Lista de barrios unicos (todos los barrios disponibles). */
@@ -49,9 +54,41 @@ export function getBarrios(): string[] {
   return Array.from(set).sort();
 }
 
+/** Lista de zonas (definidas en zonas.json, fuente de verdad). */
+export function getZonas(): Zona[] {
+  return zonas;
+}
+
+/** Una zona por slug (kebab-case). null si no existe. */
+export function getZonaBySlug(slug: string): Zona | null {
+  return zonas.find((z) => z.slug === slug) ?? null;
+}
+
+/** Una zona por nombre (display). null si no existe. */
+export function getZonaByNombre(nombre: string): Zona | null {
+  return zonas.find((z) => z.nombre.toLowerCase() === nombre.toLowerCase()) ?? null;
+}
+
+/** Propiedades filtradas por zona (por nombre o ciudad). */
+export function getPropiedadesByZona(zona: Zona): Propiedad[] {
+  return propiedades.filter(
+    (p) =>
+      p.barrio.toLowerCase() === zona.nombre.toLowerCase() ||
+      p.ciudad.toLowerCase() === zona.ciudad.toLowerCase(),
+  );
+}
+
 /** Propiedades destacadas (para la landing). */
 export function getDestacadas(): Propiedad[] {
   return propiedades.filter((p) => p.destacada);
+}
+
+/** Similares a una propiedad: misma operacion + mismo tipo + distinta, maximo n. */
+export function getSimilares(prop: Propiedad, n = 3): Propiedad[] {
+  return propiedades
+    .filter((p) => p.slug !== prop.slug)
+    .filter((p) => p.tipo === prop.tipo || p.barrio === prop.barrio)
+    .slice(0, n);
 }
 
 /** Precio comparable para filtros/orden (venta -> precioUSD, alquiler -> alquilerUSD * 240 como proxy). */
@@ -82,7 +119,7 @@ export function filtrosFromSearchParams(sp: URLSearchParams): FiltrosCatalogo {
   const zona = sp.get('zona');
   if (zona) f.zona = zona;
   const tipo = sp.get('tipo') as TipoPropiedad | null;
-  if (tipo && ['casa', 'departamento', 'ph', 'local'].includes(tipo)) f.tipo = tipo;
+  if (tipo && ['casa', 'departamento', 'ph', 'local', 'oficina', 'terreno'].includes(tipo)) f.tipo = tipo;
   const op = sp.get('operacion') as Operacion | null;
   if (op && ['venta', 'alquiler'].includes(op)) f.operacion = op;
   const dorm = sp.get('dormitorios');
@@ -139,4 +176,15 @@ export function countFiltrosActivos(f: FiltrosCatalogo): number {
   if (typeof f.precioMin === 'number') n++;
   if (typeof f.precioMax === 'number') n++;
   return n;
+}
+
+/** Slugify basico: "Pilar Centro" -> "pilar-centro". */
+export function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 }

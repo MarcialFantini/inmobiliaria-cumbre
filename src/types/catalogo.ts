@@ -3,9 +3,15 @@
 // El landing existente sigue usando `Property` (lead.ts).
 // ===========================================================
 
-export type TipoPropiedad = 'casa' | 'departamento' | 'ph' | 'local';
+export type TipoPropiedad = 'casa' | 'departamento' | 'ph' | 'local' | 'oficina' | 'terreno';
 export type Operacion = 'venta' | 'alquiler';
-export type Ciudad = 'Vicente Lopez' | 'San Isidro' | 'San Fernando' | 'Tigre' | 'Pilar';
+export type Ciudad =
+  | 'Vicente Lopez'
+  | 'San Isidro'
+  | 'San Fernando'
+  | 'Tigre'
+  | 'Pilar'
+  | 'Escobar';
 
 export interface Propiedad {
   id: string;

@@ -1,0 +1,130 @@
+{
+  "zonas": [
+    {
+      "slug": "pilar-centro",
+      "nombre": "Pilar Centro",
+      "ciudad": "Pilar",
+      "intro": "Pilar Centro es la zona fundacional de la ciudad, con la plaza 12 de Octubre como punto de encuentro. Conviven casas de pasillo históricas con nuevos desarrollos, y conserva una red de comercios de proximidad que la hace caminable.",
+      "perfil": "Casas de pasillo con lote amplio y desarrollos modernos en torre. Ideal para familias que quieren espacio verde sin perder acceso rápido a Panamericana (Ramal Pilar, km 50).",
+      "coordenadas": { "lat": -34.458, "lng": -58.914 },
+      "iconos": ["Vida de barrio", "Servicios a pie", "Acceso Panamericana"]
+    },
+    {
+      "slug": "nordelta",
+      "nombre": "Nordelta",
+      "ciudad": "Tigre",
+      "intro": "Nordelta es la ciudad-pueblo planificada más grande de Argentina, con cuatro barrios cerrados interconectados sobre el lago central. Combina seguridad 24 h, colegios bilingües, canchas de golf y paddle, y vida comercial propia.",
+      "perfil": "Casas modernas en barrios cerrados, torres premium con amenities, y lotes con vista al agua. Es el segmento premium de zona norte.",
+      "coordenadas": { "lat": -34.401, "lng": -58.666 },
+      "iconos": ["Lagos y golf", "Colegios bilingües", "Amenities 360°"]
+    },
+    {
+      "slug": "manzanares",
+      "nombre": "Manzanares",
+      "ciudad": "Pilar",
+      "intro": "Manzanares agrupa varios barrios cerrados de prestigio sobre la Ruta 8, con el campo de golf del Pilará como referencia. Es el área preferida para familias que buscan lotes grandes y naturaleza a 40 minutos de Capital.",
+      "perfil": "Casas en country con fondo al golf, lotes perimetrales de 1.000 m² en adelante. Para compradores que priorizan espacio y privacidad sobre cercanía al centro.",
+      "coordenadas": { "lat": -34.488, "lng": -58.93 },
+      "iconos": ["Golf y campo", "Lotes grandes", "Vida familiar"]
+    },
+    {
+      "slug": "tigre-centro",
+      "nombre": "Tigre Centro",
+      "ciudad": "Tigre",
+      "intro": "Tigre Centro combina el casco histórico con el Puerto de Frutos y la costanera del río Luján. Es el área más comercial del partido, con mezcla de departamentos nuevos, casas tradicionales y locales gastronómicos.",
+      "perfil": "Departamentos y PH cerca de la estación del tren de la costa. Atractivo para inversores y parejas jóvenes que quieren salida al río.",
+      "coordenadas": { "lat": -34.426, "lng": -58.579 },
+      "iconos": ["Río y delta", "Puerto de frutos", "Tren de la costa"]
+    },
+    {
+      "slug": "el-talar",
+      "nombre": "El Talar",
+      "ciudad": "Tigre",
+      "intro": "El Talar es un barrio residencial consolidado sobre la Panamericana, con casas de los 90 y 2000, comercios de proximidad y buena conexión con Capital a través del ramal Tigre.",
+      "perfil": "Casas de pasillo y lote propio en escala intermedia. Más accesible que Nordelta, a 25 minutos del centro de Buenos Aires.",
+      "coordenadas": { "lat": -34.451, "lng": -58.65 },
+      "iconos": ["Acceso rápido", "Casas accesibles", "Comercios diarios"]
+    },
+    {
+      "slug": "san-isidro-centro",
+      "nombre": "San Isidro Centro",
+      "ciudad": "San Isidro",
+      "intro": "San Isidro Centro es el casco histórico del partido, con la Catedral, la Plaza Mitre y el centro comercial a la calle. Tiene el tren de la línea Mitre a pocas cuadras y un perfil residencial clásico.",
+      "perfil": "Torres de departamentos premium y casas tradicionales restauradas. Para compradores que priorizan ubicación y servicios sobre espacio verde.",
+      "coordenadas": { "lat": -34.471, "lng": -58.512 },
+      "iconos": ["Casco histórico", "Catedral y plaza", "Tren a Retiro"]
+    },
+    {
+      "slug": "acassuso",
+      "nombre": "Acassuso",
+      "ciudad": "San Isidro",
+      "intro": "Acassuso es un barrio residencial consolidado con casas de los 60, 70 y 80 sobre lotes arbolados. Cerca de la estación y del Río de la Plata, con perfil familiar y tranquilo.",
+      "perfil": "Casas clásicas restauradas y algunas nuevas. Mercado de reventa con buena oferta en el rango USD 250K-400K.",
+      "coordenadas": { "lat": -34.476, "lng": -58.527 },
+      "iconos": ["Casas clásicas", "Calles arboladas", "Cerca del río"]
+    },
+    {
+      "slug": "beccar",
+      "nombre": "Beccar",
+      "ciudad": "San Isidro",
+      "intro": "Beccar es un barrio residencial de San Isidro con fuerte identidad propia, muy cerca de la estación y del centro comercial de San Isidro. Conviven PH, casas de pasillo y casas modernas sobre lotes chicos.",
+      "perfil": "Mix equilibrado de PH, casas pequeñas y lotes intermedios. Atractivo para parejas jóvenes y familias que priorizan ubicación.",
+      "coordenadas": { "lat": -34.461, "lng": -58.519 },
+      "iconos": ["Cerca del tren", "PH y casas", "Mix equilibrado"]
+    },
+    {
+      "slug": "martinez",
+      "nombre": "Martínez",
+      "ciudad": "San Isidro",
+      "intro": "Martínez es el barrio más cercano al Río de la Plata de San Isidro, con calles residenciales arboladas y acceso al Paseo de la Costa. Tiene un perfil residencial consolidado y casas de los años 60-90.",
+      "perfil": "Casas de pasillo y PH con jardín. A 7 cuadras de la estación y cerca del río, ideal para familias con chicos.",
+      "coordenadas": { "lat": -34.483, "lng": -58.519 },
+      "iconos": ["Cerca del río", "Paseo de la costa", "Casas con jardín"]
+    },
+    {
+      "slug": "boulogne",
+      "nombre": "Boulogne",
+      "ciudad": "San Isidro",
+      "intro": "Boulogne es un barrio residencial con casas de pasillo tradicionales y algunas casas más nuevas. Tiene buen acceso a Panamericana y a la estación de Boulogne del tren Mitre.",
+      "perfil": "Casas de pasillo y lote propio. Mix entre propiedad de inversión y vivienda familiar. Rango de precio más accesible que San Isidro Centro.",
+      "coordenadas": { "lat": -34.482, "lng": -58.576 },
+      "iconos": ["Casas accesibles", "Acceso Panamericana", "Tren Mitre"]
+    },
+    {
+      "slug": "vicente-lopez",
+      "nombre": "Vicente López",
+      "ciudad": "Vicente Lopez",
+      "intro": "Vicente López es el partido más cercano a Capital dentro de zona norte, con acceso directo por la Av. Maipú y la línea Belgrano Norte. Reúne torres premium, casas y una costanera activa sobre el río.",
+      "perfil": "Departamentos premium y casas residenciales. Para compradores que valoran la cercanía con Capital y el río a pocas cuadras.",
+      "coordenadas": { "lat": -34.529, "lng": -58.484 },
+      "iconos": ["Cerca de Capital", "Costanera al río", "Tren Belgrano Norte"]
+    },
+    {
+      "slug": "florida",
+      "nombre": "Florida",
+      "ciudad": "Vicente Lopez",
+      "intro": "Florida es el centro comercial y financiero de Vicente López, con la Av. San Martín como columna vertebral y la estación de tren como punto neurálgico.",
+      "perfil": "Mezcla de departamentos residenciales, oficinas y locales comerciales. Atractivo para inversores y parejas jóvenes.",
+      "coordenadas": { "lat": -34.531, "lng": -58.491 },
+      "iconos": ["Centro comercial", "Estación de tren", "Departamentos céntricos"]
+    },
+    {
+      "slug": "olivos",
+      "nombre": "Olivos",
+      "ciudad": "Vicente Lopez",
+      "intro": "Olivos es un barrio residencial tradicional sobre la Av. Maipú, con casas de pasillo y torres modernas. Cerca del río y de la Quinta presidencial de Olivos.",
+      "perfil": "Casas y departamentos bien mantenidos. Mercado estable con rotación moderada y precios en el segmento medio-alto.",
+      "coordenadas": { "lat": -34.515, "lng": -58.485 },
+      "iconos": ["Cerca del río", "Residencial clásico", "Torres modernas"]
+    },
+    {
+      "slug": "escobar-centro",
+      "nombre": "Escobar Centro",
+      "ciudad": "Escobar",
+      "intro": "Escobar Centro crece sobre la Ruta 9 y la calle principal del partido, con desarrollo de torres nuevas, barrios cerrados y mucha obra pública reciente.",
+      "perfil": "Departamento y casas en pleno desarrollo. Alternativa más accesible que Pilar o Nordelta con buena proyección de reventa.",
+      "coordenadas": { "lat": -34.349, "lng": -58.792 },
+      "iconos": ["Pleno desarrollo", "Precios accesibles", "Proyección de reventa"]
+    }
+  ]
+}

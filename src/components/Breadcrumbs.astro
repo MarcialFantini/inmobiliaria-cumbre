@@ -1,0 +1,32 @@
+---
+/**
+ * Breadcrumbs editorial. Mobile-first.
+ * items: [{label, href?}] - el ultimo item se renderiza sin link (current).
+ */
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+  ariaLabel?: string;
+}
+
+const { items, ariaLabel = 'Ruta de navegacion' } = Astro.props;
+---
+
+<nav aria-label={ariaLabel} class="reveal">
+  <ol class="flex flex-wrap items-center gap-2 text-xs text-ink-500">
+    {items.map((c, i) => (
+      <li class="inline-flex items-center gap-2">
+        {c.href ? (
+          <a href={c.href} class="hover:text-ink-900 transition-colors">{c.label}</a>
+        ) : (
+          <span class="text-ink-700">{c.label}</span>
+        )}
+        {i < items.length - 1 && <span aria-hidden="true" class="text-ink-300">/</span>}
+      </li>
+    ))}
+  </ol>
+</nav>

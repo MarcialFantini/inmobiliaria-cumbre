@@ -1,25 +1,18 @@
 ---
 import Icon from './Icon.astro';
-import type { Property } from '@/types/lead';
+import type { Propiedad } from '@/types/catalogo';
+import { formatM2, formatOperacion, formatPrecio, formatTipo } from '@/lib/format';
 
 interface Props {
-  property: Property;
+  property: Propiedad;
   variant?: 'default' | 'wide';
 }
 
 const { property, variant = 'default' } = Astro.props;
-
-const formatPrice = (price: number, currency: string, operation: string) => {
-  const formatted = new Intl.NumberFormat('es-AR', {
-    style: 'currency',
-    currency,
-    maximumFractionDigits: 0,
-  }).format(price);
-  return operation === 'Alquiler' ? `${formatted}/mes` : formatted;
-};
 ---
 <!--
   Property card - Inmobiliaria Cumbre.
+  Schema rico: Propiedad (catalogo.ts). Usada por el bento de destacadas del home.
   "Doble bezel" per spec:
     - outer 1px gold hairline
     - 2px gap (filled with bone-50 so the gold reads as a separate line)
@@ -45,21 +38,23 @@ const formatPrice = (price: number, currency: string, operation: string) => {
     <div
       class={`relative overflow-hidden bg-cumbre-bone-100 ${variant === 'wide' ? 'md:w-1/2 aspect-[4/3] md:aspect-auto' : 'aspect-[4/3]'}`}
     >
-      <img
-        src={property.image}
-        alt={`Render ilustrativo de ${property.title} en ${property.zone}`}
-        loading="lazy"
-        decoding="async"
-        width="800"
-        height="600"
-        class="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-      />
+      <a href={`/propiedades/${property.slug}`} aria-label={`Ver ${property.titulo} en ${property.barrio}`}>
+        <img
+          src={property.imagenes[0] ?? '/images/properties/bellavista.svg'}
+          alt={`Render ilustrativo de ${property.titulo} en ${property.barrio}`}
+          loading="lazy"
+          decoding="async"
+          width="800"
+          height="600"
+          class="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+        />
+      </a>
       <!-- Operation badge (top-left) -->
       <div class="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-cumbre-bone/95 backdrop-blur-sm px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-cumbre-ink">
-        {property.operation}
+        {formatOperacion(property.operacion)}
       </div>
       <!-- Featured flag (top-right) -->
-      {property.featured && (
+      {property.destacada && (
         <div class="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-cumbre-forest px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-cumbre-bone">
           Destacada
         </div>
@@ -70,47 +65,53 @@ const formatPrice = (price: number, currency: string, operation: string) => {
     <div class={`p-5 sm:p-6 flex flex-col flex-1 ${variant === 'wide' ? 'md:w-1/2 md:p-7 md:p-8' : ''}`}>
       <div class="flex items-start justify-between gap-3">
         <h3 class="text-display-3 text-cumbre-ink leading-[1.05]">
-          {property.title}
+          <a href={`/propiedades/${property.slug}`} class="hover:text-cumbre-forest transition-colors">
+            {property.titulo}
+          </a>
         </h3>
-        <p class="text-[15px] font-semibold text-cumbre-ink whitespace-nowrap">
-          {formatPrice(property.price, property.currency, property.operation)}
+        <p class="text-[15px] font-semibold text-cumbre-ink whitespace-nowrap tabular-nums">
+          {formatPrecio({ operacion: property.operacion, precioUSD: property.precioUSD, alquilerUSD: property.alquilerUSD })}
         </p>
       </div>
 
       <p class="mt-2 inline-flex items-center gap-1.5 text-sm text-ink-500">
         <Icon name="map-pin" size={14} />
-        {property.zone}
+        {property.barrio}, {property.ciudad}
       </p>
 
-      <p class="mt-4 text-sm text-ink-700 leading-relaxed flex-1">
-        {property.tagline}
+      <p class="mt-4 text-sm text-ink-700 leading-relaxed flex-1 line-clamp-3">
+        {property.caracteristicas.slice(0, 3).join(' \u00B7 ')}
       </p>
 
       <!-- Specs -->
       <ul class="mt-5 pt-5 border-t border-cumbre-bone-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-ink-500">
         <li class="inline-flex items-center gap-1.5">
           <Icon name="ruler" size={13} class="text-cumbre-ink" />
-          {property.covered} m&sup2;
+          {formatM2(property.m2Cubiertos)}
         </li>
         <li class="inline-flex items-center gap-1.5">
           <Icon name="bed" size={13} class="text-cumbre-ink" />
-          {property.bedrooms} dorm.
+          {property.dormitorios} dorm.
         </li>
         <li class="inline-flex items-center gap-1.5">
           <Icon name="bath" size={13} class="text-cumbre-ink" />
-          {property.bathrooms} banos
+          {property.banos} ba&ntilde;os
         </li>
         <li class="inline-flex items-center gap-1.5">
           <Icon name="car" size={13} class="text-cumbre-ink" />
-          {property.garage} cochera
+          {property.cocheras} cochera
         </li>
       </ul>
 
+      <p class="mt-4 text-[11px] font-mono uppercase tracking-[0.18em] text-cumbre-forest">
+        {formatTipo(property.tipo)}
+      </p>
+
       <!-- Primary CTA - forest (deep green), per brand spec. -->
       <a
-        href="#contacto"
-        class="mt-6 inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-cumbre-forest text-cumbre-bone text-sm hover:bg-cumbre-accent-700 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
-        aria-label={`Consultar por ${property.title} en ${property.zone}`}
+        href={`/propiedades/${property.slug}`}
+        class="mt-5 inline-flex items-center justify-between gap-2 px-4 py-3 rounded-full bg-cumbre-forest text-cumbre-bone text-sm hover:bg-cumbre-accent-700 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+        aria-label={`Ver ${property.titulo} en ${property.barrio}`}
       >
         <span>Ver propiedad</span>
         <span class="grid place-items-center w-7 h-7 rounded-full bg-cumbre-bone text-cumbre-forest transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">

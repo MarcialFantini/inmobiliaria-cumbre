@@ -38,12 +38,82 @@ const otras = getPropiedades()
 
 const descripcionParrafos = propiedad.descripcion.split('\n\n');
 const caracteristicas = propiedad.caracteristicas;
+
+// JSON-LD RealEstateListing (schema.org)
+const siteUrl = Astro.site?.toString() ?? 'https://inmobiliaria-cumbre.example';
+const absoluteImages = propiedad.imagenes.map(
+  (src) => (src.startsWith('http') ? src : new URL(src, siteUrl).toString()),
+);
+const priceValue =
+  propiedad.operacion === 'venta' && typeof propiedad.precioUSD === 'number'
+    ? propiedad.precioUSD
+    : typeof propiedad.alquilerUSD === 'number'
+      ? propiedad.alquilerUSD
+      : undefined;
+
+const realEstateListingJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateListing',
+  name: propiedad.titulo,
+  description: propiedad.descripcion,
+  url: new URL(`/propiedades/${propiedad.slug}`, siteUrl).toString(),
+  image: absoluteImages,
+  datePosted: propiedad.publicada,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: propiedad.direccion,
+    addressLocality: propiedad.barrio,
+    addressRegion: propiedad.ciudad,
+    addressCountry: 'AR',
+  },
+  ...(typeof propiedad.lat === 'number' && typeof propiedad.lng === 'number'
+    ? {
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: propiedad.lat,
+          longitude: propiedad.lng,
+        },
+      }
+    : {}),
+  ...(typeof priceValue === 'number'
+    ? {
+        offers: {
+          '@type': 'Offer',
+          price: priceValue,
+          priceCurrency: 'USD',
+          ...(propiedad.operacion === 'alquiler'
+            ? {
+                category: 'Alquiler mensual',
+                priceSpecification: {
+                  '@type': 'UnitPriceSpecification',
+                  price: priceValue,
+                  priceCurrency: 'USD',
+                  unitCode: 'MON',
+                },
+              }
+            : { category: 'Venta' }),
+        },
+      }
+    : {}),
+  numberOfBedrooms: propiedad.dormitorios,
+  numberOfBathroomsTotal: propiedad.banos,
+  numberOfRooms: propiedad.dormitorios + propiedad.banos + 1,
+  floorSize: {
+    '@type': 'FloorSize',
+    value: propiedad.m2Cubiertos,
+    unitCode: 'MTK',
+  },
+};
 ---
 <BaseLayout
   title={`${propiedad.titulo} - ${propiedad.barrio}, ${propiedad.ciudad} | Inmobiliaria Cumbre`}
   description={`${propiedad.titulo} en ${propiedad.barrio}, ${propiedad.ciudad}. ${propiedad.m2Cubiertos} m² cubiertos, ${propiedad.dormitorios} dormitorios, ${propiedad.banos} baños. ${propiedad.caracteristicas[0] ?? ''}`}
   canonical={new URL(`/propiedades/${propiedad.slug}`, Astro.site).toString()}
 >
+  <!-- JSON-LD: RealEstateListing (schema.org) por propiedad.
+       Valido en <body>: Google lo lee y parsea desde cualquier punto del documento. -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(realEstateListingJsonLd)} />
+
   <Header />
 
   <main id="main">

@@ -24,6 +24,11 @@ export default function PropertyMap({ propiedades, filtrosIniciales }: Props) {
 
   const filtered = filtrarPropiedades(propiedades, filtros);
 
+  // Ciudades unicas derivadas de las propiedades (single source of truth).
+  const ciudades = Array.from(
+    new Set(propiedades.map((p) => p.ciudad as string)),
+  ).sort();
+
   // Inicializa el mapa una sola vez.
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -33,6 +38,9 @@ export default function PropertyMap({ propiedades, filtrosIniciales }: Props) {
       const L = (await import('leaflet')).default;
 
       if (cancelled || !containerRef.current) return;
+
+      // Respeta prefers-reduced-motion para las animaciones nativas del mapa.
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (!tileCssMountedRef.current) {
         const link = document.createElement('link');
@@ -50,6 +58,10 @@ export default function PropertyMap({ propiedades, filtrosIniciales }: Props) {
         scrollWheelZoom: false,
         attributionControl: true,
         zoomControl: true,
+        // Respeta prefers-reduced-motion: desactiva zoom/fade/marker-zoom animations.
+        zoomAnimation: !reduceMotion,
+        fadeAnimation: !reduceMotion,
+        markerZoomAnimation: !reduceMotion,
       });
 
       L.tileLayer(
@@ -160,11 +172,9 @@ export default function PropertyMap({ propiedades, filtrosIniciales }: Props) {
                 }}
               >
                 <option value="">Todas</option>
-                <option value="Vicente Lopez">Vicente L&oacute;pez</option>
-                <option value="San Isidro">San Isidro</option>
-                <option value="San Fernando">San Fernando</option>
-                <option value="Tigre">Tigre</option>
-                <option value="Pilar">Pilar</option>
+                {ciudades.map((c) => (
+                  <option value={c}>{c.replace('Vicente Lopez', 'Vicente L\u00f3pez')}</option>
+                ))}
               </select>
             </div>
 

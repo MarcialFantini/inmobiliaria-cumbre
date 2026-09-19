@@ -1,0 +1,272 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import PropertyCardGrid from '@/components/PropertyCardGrid.astro';
+import Icon from '@/components/Icon.astro';
+import {
+  getZonas,
+  getZonaBySlug,
+  getPropiedadesByZona,
+  getPropiedades,
+  getCiudades,
+} from '@/lib/catalogo';
+import { formatPrecio } from '@/lib/format';
+
+export const prerender = false;
+
+const { zona: zonaSlug } = Astro.params;
+const zona = zonaSlug ? getZonaBySlug(zonaSlug) : null;
+
+if (!zona) {
+  return new Response('Zona no encontrada', { status: 404 });
+}
+
+const propiedadesEnZona = getPropiedadesByZona(zona);
+
+// Stats rapidas para el cintillo.
+const stats = {
+  total: propiedadesEnZona.length,
+  venta: propiedadesEnZona.filter((p) => p.operacion === 'venta').length,
+  alquiler: propiedadesEnZona.filter((p) => p.operacion === 'alquiler').length,
+};
+
+const destacadasZona = propiedadesEnZona.filter((p) => p.destacada).slice(0, 3);
+const otrasZonas = getZonas().filter((z) => z.slug !== zona.slug).slice(0, 6);
+const allCiudades = getCiudades();
+
+// Rango de precios para el cintillo (en USD comparable, alquiler x 240).
+const preciosComparable = propiedadesEnZona
+  .map((p) =>
+    p.operacion === 'venta'
+      ? p.precioUSD ?? 0
+      : (p.alquilerUSD ?? 0) * 240,
+  )
+  .filter((n) => n > 0);
+const precioMin = preciosComparable.length ? Math.min(...preciosComparable) : 0;
+const precioMax = preciosComparable.length ? Math.max(...preciosComparable) : 0;
+---
+
+<BaseLayout
+  title={`Propiedades en ${zona.nombre}, ${zona.ciudad} | Inmobiliaria Cumbre`}
+  description={`${propiedadesEnZona.length} casas, departamentos, PH y lotes en ${zona.nombre}. ${zona.intro}`}
+  canonical={new URL(`/zonas/${zona.slug}`, Astro.site).toString()}
+>
+  <Header />
+
+  <main id="main">
+    <!-- Breadcrumb -->
+    <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-8 md:pt-10">
+      <Breadcrumbs
+        items={[
+          { label: 'Inicio', href: '/' },
+          { label: 'Catalogo', href: '/propiedades' },
+          { label: `Zona: ${zona.nombre}` },
+        ]}
+      />
+    </div>
+
+    <!-- Hero editorial de la zona -->
+    <section class="relative overflow-hidden">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-10 md:pt-14 pb-12 md:pb-16">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-end">
+          <div class="md:col-span-7">
+            <p class="text-eyebrow text-ink-500 reveal">
+              <span class="inline-flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-cumbre-forest" aria-hidden="true"></span>
+                Zona &middot; {zona.ciudad}
+              </span>
+            </p>
+            <h1 class="mt-5 text-display-1 text-cumbre-ink reveal reveal-delay-1">
+              {zona.nombre}.
+            </h1>
+            <p class="mt-6 max-w-[60ch] text-lg text-ink-700 leading-relaxed reveal reveal-delay-2">
+              {zona.intro}
+            </p>
+          </div>
+          <div class="md:col-span-5 reveal reveal-delay-3">
+            <div class="bezel">
+              <div class="bezel__core p-5 sm:p-6">
+                <p class="text-eyebrow text-ink-500">Cintillo</p>
+                <dl class="mt-4 grid grid-cols-3 gap-3">
+                  <div>
+                    <dt class="text-xs text-ink-500">Total</dt>
+                    <dd class="mt-1 text-2xl font-semibold text-ink-900 tabular-nums">{stats.total}</dd>
+                  </div>
+                  <div>
+                    <dt class="text-xs text-ink-500">Venta</dt>
+                    <dd class="mt-1 text-2xl font-semibold text-cumbre-forest tabular-nums">{stats.venta}</dd>
+                  </div>
+                  <div>
+                    <dt class="text-xs text-ink-500">Alquiler</dt>
+                    <dd class="mt-1 text-2xl font-semibold text-cumbre-gold tabular-nums">{stats.alquiler}</dd>
+                  </div>
+                </dl>
+                {preciosComparable.length > 0 && (
+                  <p class="mt-5 pt-4 border-t border-ink-100 text-xs text-ink-700">
+                    Rango observado: USD {Math.round(precioMin).toLocaleString('es-AR')} &ndash; USD {Math.round(precioMax).toLocaleString('es-AR')} (alquiler: USD/mes x 240).
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Iconos de la zona -->
+        {zona.iconos.length > 0 && (
+          <ul class="mt-10 flex flex-wrap gap-2 reveal reveal-delay-3">
+            {zona.iconos.map((tag) => (
+              <li class="inline-flex items-center gap-2 rounded-full bg-cumbre-bone-100 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.16em] text-ink-900">
+                <span class="w-1 h-1 rounded-full bg-cumbre-forest" aria-hidden="true"></span>
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div class="gold-rule" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- Perfil comercial de la zona -->
+    <section class="relative">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-12 md:py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          <div class="lg:col-span-7 reveal">
+            <p class="text-eyebrow text-ink-500">Lo que se encuentra aca</p>
+            <h2 class="mt-4 text-display-2 text-cumbre-ink">
+              {zona.perfil.split('.')[0]}.
+            </h2>
+            <p class="mt-5 max-w-[60ch] text-lg text-ink-700 leading-relaxed">
+              {zona.perfil}
+            </p>
+          </div>
+          <aside class="lg:col-span-5 lg:sticky lg:top-28 self-start reveal reveal-delay-1">
+            <div class="bezel bezel--dark">
+              <div class="bezel__core p-6 sm:p-7">
+                <p class="text-eyebrow text-bone-300">Operamos en {zona.nombre}</p>
+                <p class="mt-3 text-italic-serif text-bone-100 text-lg leading-snug max-w-[36ch]">
+                  &ldquo;Conocemos cada calle de {zona.nombre}. Te avisamos cuando aparece algo que vale la pena.&rdquo;
+                </p>
+                <a href="/#contacto" class="mt-5 btn-pill btn-forest">
+                  <span>Pedir curaduria</span>
+                  <span class="btn-pill__icon"><Icon name="arrow-up-right" size={15} /></span>
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Propiedades en esta zona -->
+    <section class="relative">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-12 md:py-16">
+        <div class="flex items-end justify-between gap-6 mb-10 reveal">
+          <div>
+            <p class="text-eyebrow text-ink-500">Propiedades activas</p>
+            <h2 class="mt-3 text-display-2 text-cumbre-ink">
+              {propiedadesEnZona.length} en {zona.nombre}.
+            </h2>
+          </div>
+          {propiedadesEnZona.length > 0 && (
+            <a
+              href={`/buscar?zona=${encodeURIComponent(zona.nombre)}`}
+              class="hidden md:inline-flex items-center gap-2 text-sm text-cumbre-forest hover:underline"
+            >
+              Filtrar mas
+              <Icon name="arrow-right" size={14} />
+            </a>
+          )}
+        </div>
+
+        {destacadasZona.length > 0 && (
+          <div class="mb-12">
+            <h3 class="text-eyebrow text-ink-500 mb-5">Las destacadas de la zona</h3>
+            <PropertyCardGrid propiedades={destacadasZona} />
+          </div>
+        )}
+
+        {propiedadesEnZona.length > destacadasZona.length && (
+          <div class="mt-14">
+            <h3 class="text-eyebrow text-ink-500 mb-5">Todas las publicaciones</h3>
+            <PropertyCardGrid propiedades={propiedadesEnZona.filter((p) => !destacadasZona.includes(p))} />
+          </div>
+        )}
+
+        {propiedadesEnZona.length === 0 && (
+          <PropertyCardGrid
+            propiedades={[]}
+            emptyTitle={`Todavia no tenemos propiedades en ${zona.nombre}.`}
+            emptyBody="Pero trabajamos activamente ahi: contanos que buscas y te avisamos cuando aparece algo."
+            emptyCtaHref="/#contacto"
+            emptyCtaLabel="Pedir curaduria"
+          />
+        )}
+      </div>
+    </section>
+
+    <!-- Otras zonas -->
+    <section class="relative">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-12 md:py-16">
+        <div class="gold-rule mb-12" aria-hidden="true"></div>
+        <div class="flex items-end justify-between gap-6 mb-8 reveal">
+          <div>
+            <p class="text-eyebrow text-ink-500">Segui mirando</p>
+            <h2 class="mt-3 text-display-2 text-cumbre-ink">Otras zonas que cubrimos.</h2>
+          </div>
+          <a href="/propiedades" class="hidden md:inline-flex items-center gap-2 text-sm text-cumbre-forest hover:underline">
+            Catalogo completo
+            <Icon name="arrow-right" size={14} />
+          </a>
+        </div>
+
+        <ul class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+          {otrasZonas.map((z) => (
+            <li>
+              <a
+                href={`/zonas/${z.slug}`}
+                class="group block p-5 sm:p-6 rounded-[1.25rem] bg-cumbre-bone-100 hover:bg-cumbre-bone-200 transition-colors"
+                style="box-shadow: 0 0 0 1px rgba(168, 138, 78, 0.45);"
+              >
+                <p class="text-[11px] font-mono uppercase tracking-[0.18em] text-ink-500">{z.ciudad}</p>
+                <h3 class="mt-3 text-lg font-semibold text-ink-900 group-hover:text-cumbre-forest transition-colors">
+                  {z.nombre}
+                </h3>
+                <p class="mt-2 text-xs text-ink-500 line-clamp-2">{z.intro}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- CTA contextual -->
+    <section class="relative">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pb-20 md:pb-28">
+        <div class="bezel bezel--dark">
+          <div class="bezel__core p-8 sm:p-10 md:p-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            <div class="md:col-span-8">
+              <p class="text-display-3 text-bone-50 max-w-[26ch]">
+        No encontraste algo en {zona.nombre}?
+              </p>
+              <p class="mt-3 max-w-[56ch] text-ink-700 text-bone-200">
+                Activamos una alerta: cuando entre una propiedad que coincida con tu busqueda en {zona.nombre}, te escribimos antes de salir a publicar.
+              </p>
+            </div>
+            <div class="md:col-span-4 flex md:justify-end">
+              <a href="/#contacto" class="btn-pill btn-accent">
+                <span>Activar alerta</span>
+                <span class="btn-pill__icon"><Icon name="arrow-up-right" size={15} /></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

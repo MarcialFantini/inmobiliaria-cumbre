@@ -350,13 +350,178 @@
       ],
       "publicada": "2026-09-12",
       "agenteId": "tomas-berardi"
+    },
+    {
+      "id": "CUM-011",
+      "slug": "terreno-pilar-centro",
+      "titulo": "Lote Pilar Centro",
+      "tipo": "terreno",
+      "operacion": "venta",
+      "precioUSD": 98000,
+      "direccion": "Las Higueritas 480",
+      "barrio": "Pilar Centro",
+      "ciudad": "Pilar",
+      "m2Cubiertos": 0,
+      "m2Terreno": 720,
+      "dormitorios": 0,
+      "banos": 0,
+      "cocheras": 0,
+      "antiguedad": 0,
+      "descripcion": "Lote en esquina en zona consolidada de Pilar Centro, a cinco cuadras de la plaza principal y con todos los servicios instalados en la puerta (gas natural, cloacas, agua corriente, luz y fibra óptica).\n\nApto para construir vivienda unifamiliar de hasta dos plantas, con retiro de frente y FOS/FOT residenciales. Cuenta con un pequeño galpón al fondo (no habitable) y un árbol añoso que se conserva como referencia del lote. Documentación al día, sin inhibiciones. Excelente relación precio-tamaño para construir tu casa a medida sin pagar el plus de una propiedad usada.",
+      "caracteristicas": [
+        "Lote en esquina",
+        "Todos los servicios",
+        "Apto construcción 2 plantas",
+        "Documentación al día",
+        "A 5 cuadras de la plaza",
+        "Zona consolidada"
+      ],
+      "lat": -34.461,
+      "lng": -58.911,
+      "imagenes": [
+        "/images/properties/bellavista.svg",
+        "/images/properties/rincon.svg"
+      ],
+      "publicada": "2026-09-15",
+      "agenteId": "lucrecia-maidana"
+    },
+    {
+      "id": "CUM-012",
+      "slug": "casa-pacheco-tigre",
+      "titulo": "Casa Pacheco",
+      "tipo": "casa",
+      "operacion": "alquiler",
+      "alquilerUSD": 1650,
+      "direccion": "Av. Constituyentes 1450",
+      "barrio": "El Talar",
+      "ciudad": "Tigre",
+      "m2Cubiertos": 130,
+      "m2Terreno": 350,
+      "dormitorios": 3,
+      "banos": 2,
+      "cocheras": 2,
+      "antiguedad": 6,
+      "descripcion": "Casa moderna en calle tranquila de El Talar, ideal para una familia chica o pareja que busca más espacio que un departamento sin pagar el costo de Nordelta. Construcción sólida de los últimos años, con buen mantenimiento y terminaciones actuales.\n\nPlanta baja con living-comedor integrado, cocina americana con barra, toilette y lavadero. Arriba, tres dormitorios (la principal en suite) y un baño completo. Jardín con galería y parrilla. Cochera para dos autos en paralelo. Disponible a partir de noviembre. Requisitos: garantía propietaria o seguro de caución.",
+      "caracteristicas": [
+        "Construcción moderna",
+        "Suite principal",
+        "Galería con parrilla",
+        "Cochera para 2 autos",
+        "Disponible noviembre",
+        "A 8 cuadras de Panamericana"
+      ],
+      "lat": -34.451,
+      "lng": -58.65,
+      "imagenes": [
+        "/images/properties/acacias.svg",
+        "/images/properties/manzanares.svg"
+      ],
+      "publicada": "2026-09-16",
+      "agenteId": "tomas-berardi"
+    },
+    {
+      "id": "CUM-013",
+      "slug": "oficina-vicente-lopez",
+      "titulo": "Oficina Torre Maipú",
+      "tipo": "oficina",
+      "operacion": "alquiler",
+      "alquilerUSD": 1200,
+      "direccion": "Av. Maipú 850, 5° piso",
+      "barrio": "Olivos",
+      "ciudad": "Vicente Lopez",
+      "m2Cubiertos": 85,
+      "m2Terreno": 85,
+      "dormitorios": 0,
+      "banos": 1,
+      "cocheras": 1,
+      "antiguedad": 4,
+      "descripcion": "Oficina profesional en torre premium sobre Av. Maipú, a metros de la estación de tren de Olivos. Planta libre de 85 m² con posibilidad de dividir en dos ambientes privados, toilette y kitchenette. Piso alto con vista abierta al río.\n\nEdificio con seguridad 24 h, cochera rotativa en subsuelo y sala de reuniones de uso común. Incluye una cochera fija. Servicios individuales de luz, gas y A/C split (ya instalado). Expensas alrededor de USD 220 mensuales. Apto para estudios jurídicos, contables, consultoras, agencias y todo tipo de actividad profesional.",
+      "caracteristicas": [
+        "Planta libre 85 m²",
+        "Piso alto con vista al río",
+        "Seguridad 24 h",
+        "Cochera fija incluida",
+        "Sala de reuniones común",
+        "Aire split instalado"
+      ],
+      "lat": -34.515,
+      "lng": -58.485,
+      "imagenes": [
+        "/images/properties/castores.svg",
+        "/images/properties/olmos.svg"
+      ],
+      "publicada": "2026-09-11",
+      "agenteId": "ines-coppola"
+    },
+    {
+      "id": "CUM-014",
+      "slug": "depto-nordelta-alquiler",
+      "titulo": "Departamento Los Alisos",
+      "tipo": "departamento",
+      "operacion": "alquiler",
+      "alquilerUSD": 1400,
+      "direccion": "Los Alisos 1450, Torre Ceibo, 2° A",
+      "barrio": "Nordelta",
+      "ciudad": "Tigre",
+      "m2Cubiertos": 75,
+      "m2Terreno": 82,
+      "dormitorios": 2,
+      "banos": 2,
+      "cocheras": 1,
+      "antiguedad": 2,
+      "descripcion": "Departamento a estrenar en complejo cerrado Los Alisos, dentro de Nordelta. Unidad en segundo piso con vista abierta al jardín central: living-comedor con balcón, cocina americana con barra, dos dormitorios (uno en suite) y un segundo baño completo.\n\nEl complejo tiene pileta, gimnasio, SUM y seguridad 24 h. La unidad incluye cochera cubierta y baulera. Se entrega con cocina equipada (anafe y horno empotrado) y Aires Split frío/calor ya instalados. Expensas al día. Acepta mascota pequeña con depósito.",
+      "caracteristicas": [
+        "A estrenar",
+        "Cocina equipada",
+        "Aire split instalado",
+        "Pileta y gimnasio",
+        "Seguridad 24 h",
+        "Cochera cubierta + baulera"
+      ],
+      "lat": -34.412,
+      "lng": -58.673,
+      "imagenes": [
+        "/images/properties/virasoro.svg",
+        "/images/properties/castores.svg"
+      ],
+      "publicada": "2026-09-17",
+      "agenteId": "ines-coppola"
+    },
+    {
+      "id": "CUM-015",
+      "slug": "casa-acassuso-san-isidro",
+      "titulo": "Casa Acassuso",
+      "tipo": "casa",
+      "operacion": "venta",
+      "precioUSD": 320000,
+      "direccion": "Carlos Pellegrini 380",
+      "barrio": "Acassuso",
+      "ciudad": "San Isidro",
+      "m2Cubiertos": 210,
+      "m2Terreno": 600,
+      "dormitorios": 4,
+      "banos": 3,
+      "cocheras": 2,
+      "antiguedad": 18,
+      "descripcion": "Casa clásica de Acassuso, en calle arbolada a seis cuadras de la estación. Mantiene el encanto de las casas tradicionales de zona norte: techos altos, molduras y pisos de madera original, restaurados en los últimos años. Construcción sólida sobre dos plantas con jardín parquizado y pileta.\n\nPlanta baja con living y comedor separados, escritorio, cocina con comedor diario y toilette. Arriba, cuatro dormitorios: la principal en suite con vestidor, dos con placard y una cuarta habitación o playroom. Galería semicubierta mirando al jardín, pileta de 7x3 y cochera para dos autos. Calefacción por radiadores, Aires Split en dormitorios.",
+      "caracteristicas": [
+        "Casa clásica restaurada",
+        "Molduras y pisos originales",
+        "Suite con vestidor",
+        "Galería semicubierta",
+        "Pileta 7x3",
+        "Calefacción por radiadores"
+      ],
+      "lat": -34.476,
+      "lng": -58.527,
+      "imagenes": [
+        "/images/properties/manzanares.svg",
+        "/images/properties/acacias.svg",
+        "/images/properties/bellavista.svg"
+      ],
+      "publicada": "2026-09-09",
+      "agenteId": "tomas-berardi",
+      "destacada": true
     }
-  ],
-  "ciudades": [
-    "Vicente Lopez",
-    "San Isidro",
-    "San Fernando",
-    "Tigre",
-    "Pilar"
   ]
 }

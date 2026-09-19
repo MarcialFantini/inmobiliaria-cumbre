@@ -1,8 +1,9 @@
 ---
 import Icon from './Icon.astro';
-import zonesData from '@/data/properties.json';
+import { getCiudades } from '@/lib/catalogo';
 
-const zones = zonesData.zones;
+// Ciudades derivadas del catalogo real (single source of truth).
+const zonas = getCiudades();
 ---
 
 <section id="contacto" class="relative scroll-mt-24">
@@ -180,7 +181,7 @@ const zones = zonesData.zones;
                 <label class="field__label" for="zona">Zona de interes</label>
                 <select class="field__select" id="zona" name="zona" required>
                   <option value="">Elegi una zona</option>
-                  {zones.map((z) => <option value={z}>{z}</option>)}
+                  {zonas.map((z) => <option value={z}>{z}</option>)}
                 </select>
                 <p class="field__hint" data-hint>Zona principal donde te gustaria vivir.</p>
               </div>

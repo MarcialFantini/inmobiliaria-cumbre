@@ -1,11 +1,10 @@
 ---
 import PropertyCard from './PropertyCard.astro';
-import propertiesData from '@/data/properties.json';
-import type { Property } from '@/types/lead';
+import { getDestacadas, getPropiedades } from '@/lib/catalogo';
 import Icon from './Icon.astro';
 
-const featured = (propertiesData.properties as Property[]).filter((p) => p.featured);
-const total = propertiesData.properties.length;
+const destacadas = getDestacadas().slice(0, 3);
+const total = getPropiedades().length;
 ---
 <!--
   Featured properties - asymmetric bento (per brand 08 spec).
@@ -32,15 +31,15 @@ const total = propertiesData.properties.length;
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       <!-- Large (col-span-2 row-span-2 on desktop) -->
       <div class="md:col-span-2 md:row-span-2 reveal reveal-delay-2">
-        <PropertyCard property={featured[0]} variant="wide" />
+        <PropertyCard property={destacadas[0]} variant="wide" />
       </div>
       <!-- Small 1 (top-right on desktop) -->
       <div class="md:col-span-1 reveal reveal-delay-3">
-        <PropertyCard property={featured[1]} />
+        <PropertyCard property={destacadas[1]} />
       </div>
       <!-- Small 2 (bottom-right on desktop) -->
       <div class="md:col-span-1 reveal reveal-delay-4">
-        <PropertyCard property={featured[2]} />
+        <PropertyCard property={destacadas[2]} />
       </div>
     </div>
 
